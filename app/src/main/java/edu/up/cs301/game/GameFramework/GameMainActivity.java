@@ -507,9 +507,9 @@ public abstract class GameMainActivity extends Activity implements
         v = findViewById(R.id.debugLogging);
         v.setOnClickListener(this);
 
-
         String ipCode = IPCoder.encodeLocalIP();
-        String ipAddress = IPCoder.getLocalIpAddress();
+//        String ipAddress = IPCoder.getLocalIpAddress();
+        String ipAddress = "10.17.5.31";
         TextView ipText = (TextView)findViewById(R.id.ipCodeLabel);
         ipText.setText(ipText.getText()+ipCode+" ("+ipAddress+") ");
 

@@ -6,6 +6,8 @@ import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 import edu.up.cs301.game.GameFramework.players.GamePlayer;
 
 public class CELocalGame extends LocalGame {
+    //Tag for logging
+    private static final String TAG = "CELocalGame";
 
     public CELocalGame() {
         super();
@@ -19,7 +21,7 @@ public class CELocalGame extends LocalGame {
 
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
-
+        p.sendInfo(new CEGameState((CEGameState) state));
     }
 
     @Override
