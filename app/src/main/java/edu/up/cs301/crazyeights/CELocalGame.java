@@ -1,5 +1,7 @@
 package edu.up.cs301.crazyeights;
 
+import edu.up.cs301.crazyeights.ceActionMessage.CEDrawAction;
+import edu.up.cs301.crazyeights.ceActionMessage.CEPlaceAction;
 import edu.up.cs301.crazyeights.infoMessage.CEGameState;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
@@ -9,14 +11,20 @@ public class CELocalGame extends LocalGame {
     //Tag for logging
     private static final String TAG = "CELocalGame";
 
-    public CELocalGame() {
+    private CEGameState ceGameState;
+
+    public CELocalGame(GamePlayer[] players){
         super();
-        super.state = new CEGameState();
+        this.ceGameState = new CEGameState(players);
+        super.state = this.ceGameState;
+        ceGameState.dealCards();
     }
 
-    public CELocalGame(CEGameState ceGameState){
+    public CELocalGame(CEGameState gameState){
         super();
-        super.state = new CEGameState(ceGameState);
+        this.ceGameState = gameState;
+        super.state = this.ceGameState;
+        ceGameState.dealCards();
     }
 
     @Override
@@ -34,8 +42,20 @@ public class CELocalGame extends LocalGame {
         return null;
     }
 
+    /**
+     * This method is called when a new action arrives from a player
+     *
+     * @return true if the action was taken or false if the action was invalid/illegal.
+     */
     @Override
     protected boolean makeMove(GameAction action) {
+        GamePlayer player = (GamePlayer) action.getPlayer();
+        if (action instanceof CEDrawAction) {
+            ceGameState.drawCard(player);
+            return true;
+        } else if (action instanceof CEPlaceAction) {
+            return true;
+        }
         return false;
     }
 }

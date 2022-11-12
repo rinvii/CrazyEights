@@ -1,9 +1,5 @@
 package edu.up.cs301.crazyeights;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
 import java.util.ArrayList;
 
 import edu.up.cs301.R;
@@ -67,9 +63,10 @@ public class CEMainActivity extends GameMainActivity {
     }
 
     @Override
-    public LocalGame createLocalGame(GameState gameState) {
-        if(gameState == null)
-            return new CELocalGame();
+    public LocalGame createLocalGame(GameState gameState, GamePlayer[] players) {
+        if(gameState == null) {
+            return new CELocalGame(players);
+        }
         return new CELocalGame((CEGameState) gameState);
     }
 

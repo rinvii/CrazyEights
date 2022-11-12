@@ -1,5 +1,8 @@
 package edu.up.cs301.game.GameFramework.players;
 
+import java.util.ArrayList;
+
+import edu.up.cs301.crazyeights.CECard;
 import edu.up.cs301.game.GameFramework.Game;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
@@ -109,6 +112,16 @@ public class ProxyPlayer implements GamePlayer {
         networkPasser.sendObject(state);
     }
 
+
+    @Override
+    public ArrayList<CECard> getCardsInHand() {
+        return null;
+    }
+
+    @Override
+    public CECard addCardInHand(CECard card) {
+        return null;
+    }
 
     /**
      * Set this game as a GUI. (Should never be called because the

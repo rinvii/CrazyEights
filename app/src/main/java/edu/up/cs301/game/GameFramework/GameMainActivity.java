@@ -130,7 +130,7 @@ public abstract class GameMainActivity extends Activity implements
      * @return a new, game-specific instance of a sub-class of the LocalGame
      *         class.
      */
-    public abstract LocalGame createLocalGame(GameState gameState);
+    public abstract LocalGame createLocalGame(GameState gameState, GamePlayer[] players);
 
     /**
      * Creates a "proxy" game that acts as an intermediary between a local
@@ -294,17 +294,6 @@ public abstract class GameMainActivity extends Activity implements
         // Set the title text with the game's name
         this.setTitle(config.getGameName());
 
-        // create the game if it's local (we defer remote game creation
-        // until further down so that we do not attempt to make the
-        // network connection until other errors are checked)
-        if (config.isLocal()) { // local game
-            game = createLocalGame(gameState);
-            // verify we have a game
-            if (game == null) {
-                return Resources.getSystem().getString(R.string.Game_Creation_Error_Msg);
-            }
-        }
-
         //////////////////////////////////////
         // create the players
         //////////////////////////////////////
@@ -333,6 +322,17 @@ public abstract class GameMainActivity extends Activity implements
             }
             else if (guiPlayer == null && players[i].supportsGui()) {
                 guiPlayer = players[i];
+            }
+        }
+
+        // create the game if it's local (we defer remote game creation
+        // until further down so that we do not attempt to make the
+        // network connection until other errors are checked)
+        if (config.isLocal()) { // local game
+            game = createLocalGame(gameState, (GamePlayer[]) players);
+            // verify we have a game
+            if (game == null) {
+                return Resources.getSystem().getString(R.string.Game_Creation_Error_Msg);
             }
         }
 

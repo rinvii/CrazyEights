@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".crazyeights.CEMainActivity">
 
-    <edu.up.cs301.crazyeights.views.CESurfaceView
-        android:id="@+id/ourSurfaceView"
+    <edu.up.cs301.crazyeights.views.CEView
+        android:id="@+id/ourView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFFFFF" />

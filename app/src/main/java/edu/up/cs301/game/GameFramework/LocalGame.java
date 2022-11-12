@@ -86,7 +86,7 @@ public abstract class LocalGame implements Game, Tickable {
     public void start(GamePlayer[] players) {
         // if the game has already started, don't restart
         if (this.players != null) return;
-
+        GamePlayer[] myplayers = players;
         // create/store a copy of the player array
         this.players = (GamePlayer[])players.clone();
 

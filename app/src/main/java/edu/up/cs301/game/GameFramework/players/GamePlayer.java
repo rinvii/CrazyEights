@@ -1,5 +1,8 @@
 package edu.up.cs301.game.GameFramework.players;
 
+import java.util.ArrayList;
+
+import edu.up.cs301.crazyeights.CECard;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 
@@ -13,6 +16,10 @@ import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
  */
 
 public interface GamePlayer {
+
+    public abstract ArrayList<CECard> getCardsInHand();
+    public abstract CECard addCardInHand(CECard card);
+
     // sets this player as the GUI player (implemented as final in the
     // major player classes)
     public abstract void gameSetAsGui(GameMainActivity activity);
