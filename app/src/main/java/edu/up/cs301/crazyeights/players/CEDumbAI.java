@@ -31,6 +31,7 @@ public class CEDumbAI extends GameComputerPlayer {
 
     @Override
     public CECard addCardInHand(CECard card) {
-        return null;
+        this.cardsInHand.add(card);
+        return card;
     }
 }

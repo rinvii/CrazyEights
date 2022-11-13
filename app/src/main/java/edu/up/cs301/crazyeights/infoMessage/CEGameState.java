@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.up.cs301.crazyeights.CECard;
+import edu.up.cs301.crazyeights.views.CESurfaceView;
 import edu.up.cs301.game.GameFramework.infoMessage.GameState;
 import edu.up.cs301.game.GameFramework.players.GamePlayer;
 
@@ -14,21 +15,17 @@ public class CEGameState extends GameState implements Serializable {
     public ArrayList<CECard> drawPile;
     public GamePlayer[] playerList;
 
-    public CEGameState(){
-        drawPile = new ArrayList<CECard>(); // ArrayList of cards in the drawpile
-        discardPile = new ArrayList<CECard>(); // Arraylist of cards in the discard pile
-        playerToMove = new Random().nextInt(playerList.length); // randomly choosing a players turn at start of game
-        setDrawPile();
-    }
-
     public CEGameState(GamePlayer[] players){
-        drawPile = new ArrayList<CECard>(); // ArrayList of cards in the drawpile
-        discardPile = new ArrayList<CECard>(); // Arraylist of cards in the discard pile
         playerList = players;
+        init();
+    }
+
+    public void init() {
+        drawPile = new ArrayList<CECard>(); // ArrayList of cards in the drawPile
+        discardPile = new ArrayList<CECard>(); // Arraylist of cards in the discard pile
         playerToMove = new Random().nextInt(playerList.length); // randomly choosing a players turn at start of game
         setDrawPile();
     }
-
     /**
      * Populates drawPile with each drawable card
      */
@@ -47,11 +44,10 @@ public class CEGameState extends GameState implements Serializable {
      * @return
      */
     public CEGameState(CEGameState original) {
-//        try {
-//            return (CEGameState) super.clone();
-//        } catch (CloneNotSupportedException e) {
-//            return null;
-//        }
+        this.playerList = original.playerList;
+        this.drawPile = original.drawPile;
+        this.discardPile = original.discardPile;
+        this.playerToMove = original.playerToMove;
     }
 
     /**
@@ -59,7 +55,7 @@ public class CEGameState extends GameState implements Serializable {
      */
     public void dealCards() {
         for (GamePlayer player : playerList) {
-            for (int j = 0; j < 5; j++) {
+            for (int j = 0; j < 10; j++) {
                 int index = new Random().nextInt(drawPile.size());
                 player.addCardInHand(drawPile.get(index));
                 drawPile.remove(index);
@@ -108,14 +104,14 @@ public class CEGameState extends GameState implements Serializable {
      * @param selectedCard: card selected by Player
      * @return: True if the action is performed
      */
-    public boolean placeCard(Player p, CECard selectedCard) {
-        if(selectedCard != null) {
-            p.cards_in_Hand.remove(selectedCard);
-            discardPile.add(selectedCard);
-            return true;
-        }
-        return false;
-    }
+//    public boolean placeCard(Player p, CECard selectedCard) {
+//        if(selectedCard != null) {
+//            p.cards_in_Hand.remove(selectedCard);
+//            discardPile.add(selectedCard);
+//            return true;
+//        }
+//        return false;
+//    }
 
     public boolean difficulty() {
         return false;

@@ -1,5 +1,7 @@
 package edu.up.cs301.crazyeights.players;
 
+import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -7,8 +9,9 @@ import java.util.ArrayList;
 
 import edu.up.cs301.R;
 import edu.up.cs301.crazyeights.CECard;
+import edu.up.cs301.crazyeights.CELocalGame;
 import edu.up.cs301.crazyeights.infoMessage.CEGameState;
-import edu.up.cs301.crazyeights.views.CEView;
+import edu.up.cs301.crazyeights.views.CESurfaceView;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
@@ -19,9 +22,10 @@ import edu.up.cs301.game.GameFramework.utilities.Logger;
 public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListener {
 
     private static final String TAG = "CEHumanPlayer";
-    private CEView surfaceView;
+    private CESurfaceView surfaceView;
     private int layoutId;
     private ArrayList<CECard> cardsInHand;
+    private CEGameState state;
 
     /**
      * constructor
@@ -39,6 +43,10 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
     };
 
     public void receiveInfo(GameInfo info) {
+        this.state = (CEGameState) info;
+
+        if (surfaceView == null) return;
+
         if (info instanceof IllegalMoveInfo || info instanceof NotYourTurnInfo) {
             // if the move was out of turn or otherwise illegal, flash the screen
 //            surfaceView.flash(Color.RED, 50);
@@ -56,16 +64,27 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
     public void setAsGui(GameMainActivity activity) {
         activity.setContentView(layoutId);
 
-        surfaceView = (CEView) myActivity.findViewById(R.id.ourView);
+        surfaceView = (CESurfaceView) myActivity.findViewById(R.id.ourView);
         Logger.log("set listener","OnTouch");
         surfaceView.setOnTouchListener(this);
+
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-//        switch (view) {
-//            case :
-//        }
+        float x = motionEvent.getX();
+        float y = motionEvent.getY();
+
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                for (CECard card : cardsInHand) {
+                    if (card.bounds.contains((int) x, (int) y)) {
+                        Log.i("CLICKED CARD ID", card.face.name() + " " + card.suit.name());
+                    }
+                }
+                break;
+        }
+
         return false;
     }
 

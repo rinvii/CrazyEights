@@ -55,8 +55,9 @@ public class CEMainActivity extends GameMainActivity {
         GameConfig defaultConfig = new GameConfig(playerTypes, 4, 4, "Crazy Eights", PORT_NUMBER);
 
         defaultConfig.addPlayer("Human", 0);
-        defaultConfig.addPlayer("Computer", 2);
-
+        defaultConfig.addPlayer("Computer1", 2);
+        defaultConfig.addPlayer("Computer2", 2);
+        defaultConfig.addPlayer("Computer3", 2);
 //        defaultConfig.setRemoteData("Remote Player", "", 1);
 
         return defaultConfig;
