@@ -5,8 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceView;
@@ -40,8 +42,11 @@ public class CESurfaceView extends SurfaceView {
     private final int ADJUSTED_CARD_HALF_WIDTH = ADJUSTED_CARD_WIDTH / 2;
     private final int ADJUSTED_CARD_HALF_HEIGHT = ADJUSTED_CARD_HEIGHT / 2;
 
-    boolean leftFilled;
+    boolean rightFilled;
     boolean topFilled;
+
+    // the current GUI holder's index of their player object in the player list
+    private int ourIndex;
 
     // the game state
     protected CEGameState state;
@@ -99,9 +104,7 @@ public class CESurfaceView extends SurfaceView {
         }
 
         // invoke helper draw methods
-        drawOurCards(canvas);
-        drawTopCards(canvas);
-
+        drawCards(canvas);
     }
 
     /**
@@ -109,16 +112,16 @@ public class CESurfaceView extends SurfaceView {
      *
      * @param canvas The canvas to draw on
      */
-    public void drawOurCards(Canvas canvas) {
+    public void drawCards(Canvas canvas) {
         // Canvas dimensions
         int canvasWidth = canvas.getWidth();
         int canvasHeight = canvas.getHeight();
 
-        // green center line
-//        Paint strokePaint = new Paint();
-//        strokePaint.setStyle(Paint.Style.STROKE);
-//        strokePaint.setColor(Color.GREEN);
-//        strokePaint.setStrokeWidth(10);
+        // green alignment region paint
+        Paint strokePaint = new Paint();
+        strokePaint.setStyle(Paint.Style.STROKE);
+        strokePaint.setColor(Color.GREEN);
+        strokePaint.setStrokeWidth(1);
 
         // iterate through every player
         for (GamePlayer player : state.playerList) {
@@ -139,8 +142,8 @@ public class CESurfaceView extends SurfaceView {
 
                     // top starts at the bottom and we subtract two card heights
                     int top = canvasHeight - ADJUSTED_CARD_HEIGHT * 2;
-                    // bottom starts at the bottom and we subtract one card height for a correct card height aftermath
-                    int bottom = canvasHeight - ADJUSTED_CARD_HEIGHT;
+                    // bottom boundary complete with full card height
+                    int bottom = top + ADJUSTED_CARD_HEIGHT;
                     // card left boundary starts at the left edge of screen which uses the
                     // product of the card's index and the card's half width to
                     // achieve a fan fold effect, then the entire fan is shifted to the right
@@ -165,71 +168,69 @@ public class CESurfaceView extends SurfaceView {
                         card.setBounds(new Rect(left, top, left + ADJUSTED_CARD_HALF_WIDTH, bottom));
                     }
                 }
-            }
-        }
-
-//        canvas.drawRect(canvasWidth/2-5, 0, canvasWidth/2+5, canvasHeight, strokePaint);
-
-    }
-
-    /**
-     * Effectively the same as the drawOurCards() method.
-     *
-     * @param canvas The canvas to draw
-     */
-    public void drawTopCards(Canvas canvas) {
-        int canvasWidth = canvas.getWidth();
-        int canvasHeight = canvas.getHeight();
-
-        // green center line
-//        Paint strokePaint = new Paint();
-//        strokePaint.setStyle(Paint.Style.STROKE);
-//        strokePaint.setColor(Color.GREEN);
-//        strokePaint.setStrokeWidth(10);
-
-        for (GamePlayer player : state.playerList) {
-            if (player instanceof CEDumbAI || player instanceof CESmartAI) {
-                for (CECard card : player.getCardsInHand()) {
-                    ArrayList<CECard> cardsInHand = player.getCardsInHand();
-                    int numOfCards = cardsInHand.size();
-//                    Log.i("CARD ID", card.face.name() + " " + card.suit.name());
-                    Log.i("CARD ID", "BACK CARD");
-                    Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
-                    int top;
-                    int bottom;
-                    int left;
-                    int right;
-
-//                    if (!topFilled) {
-                        top = 726 / 3 + 726/3;
-                        bottom = 726 / 3 + 726 / 3 + 726/3;
-                        right = canvasWidth - (500/6 * cardsInHand.indexOf(card)) - (canvasWidth - ((numOfCards + 1) * 500/6))/2;
-                        left = right - 500/3;
-//                    } else if (!leftFilled) {
-//                        top = 726 / 3 + 726/3 + 726/3;
-//                        bottom = 726 / 3 + 726 / 3 + 726/3;
-//                        right = canvasWidth - (500/6 * cardsInHand.indexOf(card)) - (canvasWidth - ((numOfCards + 1) * 500/6))/2;
-//                        left = right - 500/3;
-//                    } else {
-//                        top = 726 / 3 + 726/3;
-//                        bottom = 726 / 3 + 726 / 3 + 726/3;
-//                        right = canvasWidth - (500/6 * cardsInHand.indexOf(card)) - (canvasWidth - ((numOfCards + 1) * 500/6))/2;
-//                        left = right - 500/3;
-//                    }
-
-                    if (bmp != null) {
-                        canvas.drawBitmap(bmp, null, new Rect(left, top, right, bottom), new Paint());
-                        bmp.recycle();
+            } else if (player instanceof CEDumbAI || player instanceof CESmartAI) {
+                if (!topFilled) {
+                    for (CECard card : player.getCardsInHand()) {
+                        ArrayList<CECard> cardsInHand = player.getCardsInHand();
+                        int numOfCards = cardsInHand.size();
+                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
+                        int top = ADJUSTED_CARD_HEIGHT * 2;
+                        int bottom = top + ADJUSTED_CARD_HEIGHT;
+                        int right = canvasWidth - (ADJUSTED_CARD_HALF_WIDTH * cardsInHand.indexOf(card))
+                                - (canvasWidth - ((numOfCards + 1) * ADJUSTED_CARD_HALF_WIDTH)) / 2;
+                        int left = right - 500/3;
+                        if (bmp != null) {
+                            canvas.drawBitmap(bmp, null, new Rect(left, top, right, bottom), new Paint());
+                            bmp.recycle();
+                        }
                     }
-
-//                    if (cardsInHand.indexOf(card) == numOfCards - 1) {
-//                        card.setBounds(new Rect(left, top, left + 500 / 3, bottom));
-//                    } else {
-//                        card.setBounds(new Rect(left, top, left + 500 / 6, bottom));
-//                    }
+                    topFilled = true;
+                } else if (!rightFilled) {
+                    for (CECard card : player.getCardsInHand()) {
+                        ArrayList<CECard> cardsInHand = player.getCardsInHand();
+                        int numOfCards = cardsInHand.size();
+                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
+                        int top = canvasHeight / 2 - ADJUSTED_CARD_HEIGHT * 3 + 50;
+                        int bottom = top + ADJUSTED_CARD_HEIGHT;
+                        int right = canvasWidth - (ADJUSTED_CARD_HALF_WIDTH * cardsInHand.indexOf(card))
+                                - (canvasWidth - ((numOfCards + 1) * ADJUSTED_CARD_HALF_WIDTH)) + ADJUSTED_CARD_HEIGHT
+                                + (((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) - ADJUSTED_CARD_HEIGHT * 3) - (ADJUSTED_CARD_HALF_WIDTH * (numOfCards + 1))) / 2;
+                        int left = right - ADJUSTED_CARD_WIDTH;
+                        if (bmp != null) {
+                            canvas.save();
+                            canvas.rotate(90, canvasWidth / 2, canvasHeight / 2);
+                            canvas.drawBitmap(bmp, null, new Rect(left, top, right, bottom), new Paint());
+                            canvas.restore();
+                            bmp.recycle();
+                        }
+                    }
+                    rightFilled = true;
+                } else {
+                    for (CECard card : player.getCardsInHand()) {
+                        ArrayList<CECard> cardsInHand = player.getCardsInHand();
+                        int numOfCards = cardsInHand.size();
+                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
+                        int top = canvasHeight / 2 - ADJUSTED_CARD_HEIGHT * 3 + 50;
+                        int bottom = top + ADJUSTED_CARD_HEIGHT;
+                        int right = canvasWidth - (ADJUSTED_CARD_HALF_WIDTH * cardsInHand.indexOf(card))
+                                - (canvasWidth - ((numOfCards + 1) * ADJUSTED_CARD_HALF_WIDTH))
+                                + (((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) - ADJUSTED_CARD_HEIGHT * 3) - (ADJUSTED_CARD_HALF_WIDTH * (numOfCards + 1 ))) / 2;
+                        int left = right - ADJUSTED_CARD_WIDTH;
+                        if (bmp != null) {
+                            canvas.save();
+                            canvas.rotate(-90, canvasWidth / 2, canvasHeight / 2);
+                            canvas.drawBitmap(bmp, null, new Rect(left, top, right, bottom), new Paint());
+                            canvas.restore();
+                            bmp.recycle();
+                        }
+                    }
                 }
-                break;
             }
         }
+
+        canvas.drawRect(canvasWidth/2-5, 0, canvasWidth/2+5, canvasHeight, strokePaint);
+        canvas.drawRect(0, ADJUSTED_CARD_HEIGHT * 3, canvasWidth, (canvasHeight - ADJUSTED_CARD_HEIGHT * 2), strokePaint);
+        canvas.drawRect(0, ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) + ADJUSTED_CARD_HEIGHT * 3) / 2, canvasWidth, ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) + ADJUSTED_CARD_HEIGHT * 3) / 2, strokePaint);
     }
+
 }

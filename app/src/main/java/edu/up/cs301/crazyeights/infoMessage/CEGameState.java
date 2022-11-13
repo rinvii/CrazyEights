@@ -81,7 +81,7 @@ public class CEGameState extends GameState implements Serializable {
      */
     public void dealCards() {
         for (GamePlayer player : playerList) {
-            for (int j = 0; j < 10; j++) {
+            for (int j = 0; j < 5; j++) {
                 int index = new Random().nextInt(drawPile.size());
                 player.addCardInHand(drawPile.get(index));
                 drawPile.remove(index);
