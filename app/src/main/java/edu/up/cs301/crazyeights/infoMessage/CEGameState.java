@@ -9,17 +9,43 @@ import edu.up.cs301.crazyeights.views.CESurfaceView;
 import edu.up.cs301.game.GameFramework.infoMessage.GameState;
 import edu.up.cs301.game.GameFramework.players.GamePlayer;
 
+/**
+ * This class contains the state of the game. This class
+ * is used by most other classes to determine what information
+ * should be displayed on the screen.
+ *
+ * @author Ronnie Delos Santos
+ * @author Emily Do
+ * @author Noelle Lei Sam
+ * @author Alex Melamai
+ * @version November 2022
+ */
 public class CEGameState extends GameState implements Serializable {
+    // the player index indicating who is moving
     public int playerToMove;
+    // the discard pile storing card placed in the middle after it is selected
     public ArrayList<CECard> discardPile;
+    // the draw pile containing all cards which will be dealt
     public ArrayList<CECard> drawPile;
+    // the list of players existing in the game
     public GamePlayer[] playerList;
 
+    /**
+     * Constructor for CEGameState.
+     * Assigns a reference to playerList.
+     * This reference was obtained by modifying
+     * the game framework source file: GameMainActivity.java.
+     *
+     * @param players List of players
+     */
     public CEGameState(GamePlayer[] players){
         playerList = players;
         init();
     }
 
+    /**
+     * Helper method for our constructors.
+     */
     public void init() {
         drawPile = new ArrayList<CECard>(); // ArrayList of cards in the drawPile
         discardPile = new ArrayList<CECard>(); // Arraylist of cards in the discard pile
@@ -112,13 +138,6 @@ public class CEGameState extends GameState implements Serializable {
 //        }
 //        return false;
 //    }
-
-    public boolean difficulty() {
-        return false;
-    }
-    public boolean restart() {
-        return false;
-    }
 
     /**
      * Check if card is playable
