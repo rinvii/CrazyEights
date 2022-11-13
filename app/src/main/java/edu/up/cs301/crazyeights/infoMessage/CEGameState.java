@@ -84,7 +84,7 @@ public class CEGameState extends GameState implements Serializable {
             for (int j = 0; j < 5; j++) {
                 int index = new Random().nextInt(drawPile.size());
                 player.addCardInHand(drawPile.get(index));
-                drawPile.remove(index);
+//                drawPile.remove(index);
             }
         }
     }
@@ -124,20 +124,22 @@ public class CEGameState extends GameState implements Serializable {
 //    }
 
     /**
-     * Boolean method if a card is selected it is removed from cards_in_hand and added to discard
+     * Card method which adds to the discardPile
      *
-     * @param p: current player
-     * @param selectedCard: card selected by Player
+     * @param selectedCard: The card to place
      * @return: True if the action is performed
      */
-//    public boolean placeCard(Player p, CECard selectedCard) {
-//        if(selectedCard != null) {
-//            p.cards_in_Hand.remove(selectedCard);
-//            discardPile.add(selectedCard);
-//            return true;
-//        }
-//        return false;
-//    }
+    public boolean placeCard(CECard selectedCard) {
+        if(selectedCard != null) {
+            discardPile.add(selectedCard);
+            return true;
+        }
+        return false;
+    }
+
+    public CECard getRandomCard() {
+        return drawPile.get(new Random().nextInt(drawPile.size()));
+    }
 
     /**
      * Check if card is playable
@@ -164,7 +166,7 @@ public class CEGameState extends GameState implements Serializable {
     public void drawCard(GamePlayer player) {
         int index = new Random().nextInt(drawPile.size());
         player.addCardInHand(drawPile.get(index));
-        drawPile.remove(index);
+//        drawPile.remove(index);
     }
 
     /**

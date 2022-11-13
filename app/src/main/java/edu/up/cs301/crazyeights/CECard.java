@@ -1,5 +1,6 @@
 package edu.up.cs301.crazyeights;
 
+import android.graphics.Point;
 import android.graphics.Rect;
 
 import edu.up.cs301.R;
@@ -8,6 +9,8 @@ public class CECard {
     public FACE face;
     public SUIT suit;
     public Rect bounds;
+    Point offsetPos;
+    public Integer rotation;
 
 
     public CECard(FACE f, SUIT s) {
@@ -152,5 +155,23 @@ public class CECard {
     public Rect setBounds(Rect b) {
         this.bounds = b;
         return b;
+    }
+
+    public Point setDiscardCardOffset(Point offset) {
+        this.offsetPos = offset;
+        return offset;
+    }
+
+    public int setDiscardCardRotation(int rotation) {
+        this.rotation = rotation;
+        return rotation;
+    }
+
+    public Point getOffsetPos() {
+        return this.offsetPos;
+    }
+
+    public Integer getRotation() {
+        return this.rotation;
     }
 }

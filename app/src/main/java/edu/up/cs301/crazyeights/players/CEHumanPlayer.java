@@ -106,7 +106,7 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         float y = motionEvent.getY();
 
         switch (motionEvent.getAction()) {
-            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_UP:
                 for (CECard card : cardsInHand) {
                     if (card.bounds.contains((int) x, (int) y)) {
                         Log.i("CLICKED CARD ID", card.face.name() + " " + card.suit.name());

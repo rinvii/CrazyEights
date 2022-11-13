@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.up.cs301.R;
 import edu.up.cs301.crazyeights.CECard;
@@ -123,7 +125,7 @@ public class CESurfaceView extends SurfaceView {
         strokePaint.setColor(Color.GREEN);
         strokePaint.setStrokeWidth(1);
 
-        // iterate through every player
+        // iterate through every player and draw the cards in their hand
         for (GamePlayer player : state.playerList) {
 
             // check if iterable is instance of CEHumanPlayer or CESecondHumanPlayer
@@ -182,6 +184,8 @@ public class CESurfaceView extends SurfaceView {
                         if (bmp != null) {
                             canvas.drawBitmap(bmp, null, new Rect(left, top, right, bottom), new Paint());
                             bmp.recycle();
+                        } else {
+                            Log.e("CESurfaceView", card.face.name() + " " + card.suit.name());
                         }
                     }
                     topFilled = true;
@@ -202,6 +206,8 @@ public class CESurfaceView extends SurfaceView {
                             canvas.drawBitmap(bmp, null, new Rect(left, top, right, bottom), new Paint());
                             canvas.restore();
                             bmp.recycle();
+                        } else {
+                            Log.e("CESurfaceView", card.face.name() + " " + card.suit.name());
                         }
                     }
                     rightFilled = true;
@@ -222,9 +228,57 @@ public class CESurfaceView extends SurfaceView {
                             canvas.drawBitmap(bmp, null, new Rect(left, top, right, bottom), new Paint());
                             canvas.restore();
                             bmp.recycle();
+                        } else {
+                            Log.e("CESurfaceView", card.face.name() + " " + card.suit.name());
                         }
                     }
                 }
+            }
+        }
+
+        // draw drawPile
+        for (int i = 0; i < 7; i++) {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
+            int top = canvasHeight / 2 - ADJUSTED_CARD_HALF_HEIGHT;
+            int bottom = top + ADJUSTED_CARD_HEIGHT;
+            int right = canvasWidth - ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) - ADJUSTED_CARD_HEIGHT * 3)
+                    + ADJUSTED_CARD_WIDTH * 2 - (i * (10));
+            int left = right - ADJUSTED_CARD_WIDTH;
+            if (bmp != null) {
+                canvas.save();
+                canvas.rotate(90, canvasWidth / 2, canvasHeight / 2);
+                canvas.drawBitmap(bmp, null, new Rect(left, top, right, bottom), new Paint());
+                canvas.restore();
+                bmp.recycle();
+            }
+        }
+
+        // draw discardPile
+        for (CECard card : state.discardPile) {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), card.getId());
+            int top = ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) + ADJUSTED_CARD_HEIGHT * 3) / 2 - ADJUSTED_CARD_HALF_HEIGHT;
+            int left = canvasWidth / 2 - ADJUSTED_CARD_HALF_WIDTH;
+            int rotation = 0;
+
+            if (card.getOffsetPos() == null  && card.rotation == null) {
+                Point offsetPoint = card.setDiscardCardOffset(
+                        new Point(new Random().nextInt(100) - 50, new Random().nextInt(100) - 50));
+                left += offsetPoint.x;
+                top += offsetPoint.y;
+                rotation = card.setDiscardCardRotation(new Random().nextInt(360));
+            } else {
+                left += card.getOffsetPos().x;
+                top += card.getOffsetPos().y;
+                rotation = card.getRotation();
+            }
+
+            if (bmp != null) {
+                canvas.save();
+                canvas.rotate(rotation, canvasWidth / 2, ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) + ADJUSTED_CARD_HEIGHT * 3) / 2);
+                canvas.drawBitmap(bmp, null, new Rect(left, top, left + ADJUSTED_CARD_WIDTH, top + ADJUSTED_CARD_HEIGHT), new Paint());
+                canvas.restore();
+            } else {
+                Log.e("CESurfaceView", card.face.name() + " " + card.suit.name());
             }
         }
 

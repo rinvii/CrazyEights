@@ -58,6 +58,9 @@ public class CELocalGame extends LocalGame {
         super.start(players);
         // deals cards to every player
         ceGameState.dealCards();
+        for (int i = 0; i < 10; i++) {
+            ceGameState.placeCard(ceGameState.getRandomCard());
+        }
         // tell the game that we are ready to display the GUI
         sendAllUpdatedState();
     }
