@@ -117,6 +117,10 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
                         Log.i("Player Action", "Human Player playing " + card.face.name() + " " + card.suit.name());
                     }
                 }
+                if(((view.getHeight()-view.getHeight()/4)>y)&&((view.getWidth()/3)<x&&(view.getWidth()-view.getWidth()/3)>x)){//this needs to be optimized
+                    game.sendAction(new CEDrawAction(this));
+                    Log.i("Player Action", "Human Player drawing");
+                }
                 break;
         }
         surfaceView.invalidate();
