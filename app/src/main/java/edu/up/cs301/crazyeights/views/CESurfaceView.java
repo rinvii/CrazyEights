@@ -132,15 +132,15 @@ public class CESurfaceView extends SurfaceView {
             if (player instanceof CEHumanPlayer || player instanceof CESecondHumanPlayer) {
 
                 // iterate through the player's hand
-                for (CECard card : player.getCardsInHand()) {
-
+                for (int i = 0; i < player.getCardsInHand().size(); i++) {
                     ArrayList<CECard> cardsInHand = player.getCardsInHand();
+                    CECard card = cardsInHand.get(i);
                     int numOfCards = cardsInHand.size();
-
-                    Log.i("CARD ID", card.face.name() + " " + card.suit.name());
 
                     // bitmap to draw the card onto
                     Bitmap bmp = BitmapFactory.decodeResource(getResources(), card.getId());
+
+                    Log.i("CARD ID", card.face.name() + " " + card.suit.name() + " index: " + i);
 
                     // top starts at the bottom and we subtract two card heights
                     int top = canvasHeight - ADJUSTED_CARD_HEIGHT * 1 - 100;
@@ -161,6 +161,8 @@ public class CESurfaceView extends SurfaceView {
                     if (bmp != null) {
                         canvas.drawBitmap(bmp, null, new Rect(left, top, right, bottom), new Paint());
                         bmp.recycle();
+                    } else {
+                        Log.e("CESurfaceView", card.face.name() + " " + card.suit.name());
                     }
 
                     // store visible card boundaries to the card object for listener use
