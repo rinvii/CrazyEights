@@ -177,7 +177,7 @@ public class CESurfaceView extends SurfaceView {
                         CECard card = cardsInHand.get(i);
                         int numOfCards = cardsInHand.size();
                         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
-                        int top = ADJUSTED_CARD_HEIGHT * 2;
+                        int top = ADJUSTED_CARD_HEIGHT * 1 + 150;
                         int bottom = top + ADJUSTED_CARD_HEIGHT;
                         int right = canvasWidth - (ADJUSTED_CARD_HALF_WIDTH * cardsInHand.indexOf(card))
                                 - (canvasWidth - ((numOfCards + 1) * ADJUSTED_CARD_HALF_WIDTH)) / 2;
@@ -245,7 +245,7 @@ public class CESurfaceView extends SurfaceView {
             int top = canvasHeight / 2 - ADJUSTED_CARD_HALF_HEIGHT;
             int bottom = top + ADJUSTED_CARD_HEIGHT;
             int right = canvasWidth - ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) - ADJUSTED_CARD_HEIGHT * 3)
-                    + ADJUSTED_CARD_WIDTH * 2 - (i * (10));
+                    + ADJUSTED_CARD_WIDTH * 4 - (i * (10));
             int left = right - ADJUSTED_CARD_WIDTH;
             if (bmp != null) {
                 canvas.save();
