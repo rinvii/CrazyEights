@@ -143,7 +143,7 @@ public class CESurfaceView extends SurfaceView {
                     Bitmap bmp = BitmapFactory.decodeResource(getResources(), card.getId());
 
                     // top starts at the bottom and we subtract two card heights
-                    int top = canvasHeight - ADJUSTED_CARD_HEIGHT * 2;
+                    int top = canvasHeight - ADJUSTED_CARD_HEIGHT * 1 - 100;
                     // bottom boundary complete with full card height
                     int bottom = top + ADJUSTED_CARD_HEIGHT;
                     // card left boundary starts at the left edge of screen which uses the
