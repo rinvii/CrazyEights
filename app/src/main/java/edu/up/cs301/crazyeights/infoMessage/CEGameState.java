@@ -180,4 +180,8 @@ public class CEGameState extends GameState implements Serializable {
             playerToMove++;
         }
     }
+
+    public int getPlayerToMove() {
+        return this.playerToMove;
+    }
 }

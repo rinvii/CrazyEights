@@ -40,4 +40,8 @@ public class CESmartAI extends GameComputerPlayer {
         this.cardsInHand.add(card);
         return card;
     }
+
+    @Override
+    public void removeCardInHand(CECard card) {
+    }
 }

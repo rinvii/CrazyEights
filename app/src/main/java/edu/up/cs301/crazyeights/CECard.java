@@ -18,6 +18,14 @@ public class CECard {
         this.suit = s;
     }
 
+    public CECard(CECard original) {
+        this.face = original.face;
+        this.suit = original.suit;
+        this.bounds = original.bounds;
+        this.offsetPos = original.offsetPos;
+        this.rotation = original.rotation;
+    }
+
     public enum FACE {
         ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, KING, QUEEN, JACK;
     }

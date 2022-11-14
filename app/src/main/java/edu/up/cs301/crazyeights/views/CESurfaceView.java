@@ -105,7 +105,7 @@ public class CESurfaceView extends SurfaceView {
             return;
         }
 
-        // invoke helper draw methods
+        // invoke helper draw method
         drawCards(canvas);
     }
 
@@ -255,6 +255,7 @@ public class CESurfaceView extends SurfaceView {
 
         // draw discardPile
         for (CECard card : state.discardPile) {
+            Log.e("discardPile", card.face.name() + " " + card.suit.name());
             Bitmap bmp = BitmapFactory.decodeResource(getResources(), card.getId());
             int top = ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) + ADJUSTED_CARD_HEIGHT * 3) / 2 - ADJUSTED_CARD_HALF_HEIGHT;
             int left = canvasWidth / 2 - ADJUSTED_CARD_HALF_WIDTH;
@@ -278,13 +279,16 @@ public class CESurfaceView extends SurfaceView {
                 canvas.drawBitmap(bmp, null, new Rect(left, top, left + ADJUSTED_CARD_WIDTH, top + ADJUSTED_CARD_HEIGHT), new Paint());
                 canvas.restore();
             } else {
-                Log.e("CESurfaceView", card.face.name() + " " + card.suit.name());
+                Log.e("discardPile ERR", card.face.name() + " " + card.suit.name());
             }
         }
 
-        canvas.drawRect(canvasWidth/2-5, 0, canvasWidth/2+5, canvasHeight, strokePaint);
-        canvas.drawRect(0, ADJUSTED_CARD_HEIGHT * 3, canvasWidth, (canvasHeight - ADJUSTED_CARD_HEIGHT * 2), strokePaint);
-        canvas.drawRect(0, ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) + ADJUSTED_CARD_HEIGHT * 3) / 2, canvasWidth, ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) + ADJUSTED_CARD_HEIGHT * 3) / 2, strokePaint);
+        topFilled = false;
+        rightFilled = false;
+
+//        canvas.drawRect(canvasWidth/2-5, 0, canvasWidth/2+5, canvasHeight, strokePaint);
+//        canvas.drawRect(0, ADJUSTED_CARD_HEIGHT * 3, canvasWidth, (canvasHeight - ADJUSTED_CARD_HEIGHT * 2), strokePaint);
+//        canvas.drawRect(0, ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) + ADJUSTED_CARD_HEIGHT * 3) / 2, canvasWidth, ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) + ADJUSTED_CARD_HEIGHT * 3) / 2, strokePaint);
     }
 
 }

@@ -123,6 +123,10 @@ public class ProxyPlayer implements GamePlayer {
         return null;
     }
 
+    @Override
+    public void removeCardInHand(CECard card) {
+    }
+
     /**
      * Set this game as a GUI. (Should never be called because the
      * 'supportsGui' method returns false.)

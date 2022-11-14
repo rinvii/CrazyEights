@@ -1,9 +1,15 @@
 package edu.up.cs301.crazyeights.players;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.up.cs301.crazyeights.CECard;
+import edu.up.cs301.crazyeights.ceActionMessage.CEPlaceAction;
+import edu.up.cs301.crazyeights.infoMessage.CEGameState;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
+import edu.up.cs301.game.GameFramework.infoMessage.NotYourTurnInfo;
 import edu.up.cs301.game.GameFramework.players.GameComputerPlayer;
 
 public class CEDumbAI extends GameComputerPlayer {
@@ -21,7 +27,22 @@ public class CEDumbAI extends GameComputerPlayer {
 
     @Override
     protected void receiveInfo(GameInfo info) {
+        if (info instanceof NotYourTurnInfo) return;
 
+        CEGameState ceGameState = new CEGameState((CEGameState) info);
+
+        if (ceGameState.getPlayerToMove() != this.playerNum) {
+            return;
+        } else {
+            CECard randomCard = this.cardsInHand.get(new Random().nextInt(this.cardsInHand.size()));
+            Log.i("Player Action", "player " + this.playerNum + " playing " + randomCard.face.name() + " " + randomCard.suit);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+//            e.printStackTrace();
+            }
+            game.sendAction(new CEPlaceAction(this, randomCard));
+        }
     }
 
     @Override
@@ -34,4 +55,15 @@ public class CEDumbAI extends GameComputerPlayer {
         this.cardsInHand.add(card);
         return card;
     }
+
+    /**
+     * Removes card in the hand.
+     * @param card The card to be removed
+     * @return The card that was removed
+     */
+    @Override
+    public void removeCardInHand(CECard card) {
+        this.cardsInHand.remove(card);
+    }
+
 }

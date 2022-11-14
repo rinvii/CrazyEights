@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import edu.up.cs301.R;
 import edu.up.cs301.crazyeights.CECard;
+import edu.up.cs301.crazyeights.ceActionMessage.CEPlaceAction;
 import edu.up.cs301.crazyeights.infoMessage.CEGameState;
 import edu.up.cs301.crazyeights.views.CESurfaceView;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
@@ -107,14 +108,16 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
 
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_UP:
-                for (CECard card : cardsInHand) {
+                for (int i = 0; i < this.cardsInHand.size(); i++) {
+                    CECard card = this.cardsInHand.get(i);
                     if (card.bounds.contains((int) x, (int) y)) {
-                        Log.i("CLICKED CARD ID", card.face.name() + " " + card.suit.name());
+                        game.sendAction(new CEPlaceAction(this, card));
+                        Log.i("Player Action", "Human Player playing " + card.face.name() + " " + card.suit.name());
                     }
                 }
                 break;
         }
-
+        surfaceView.invalidate();
         return true;
     }
 
@@ -144,6 +147,16 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
     public CECard addCardInHand(CECard card) {
         this.cardsInHand.add(card);
         return card;
+    }
+
+    /**
+     * Removes card in the hand.
+     * @param card The card to be removed
+     * @return The card that was removed
+     */
+    @Override
+    public void removeCardInHand(CECard card) {
+        this.cardsInHand.remove(card);
     }
 
 }

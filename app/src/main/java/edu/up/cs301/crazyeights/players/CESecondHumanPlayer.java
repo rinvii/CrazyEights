@@ -48,4 +48,8 @@ public class CESecondHumanPlayer extends GameHumanPlayer {
     public CECard addCardInHand(CECard card) {
         return null;
     }
+
+    @Override
+    public void removeCardInHand(CECard card) {
+    }
 }

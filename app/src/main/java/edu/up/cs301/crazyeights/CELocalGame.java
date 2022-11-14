@@ -1,5 +1,7 @@
 package edu.up.cs301.crazyeights;
 
+import android.util.Log;
+
 import edu.up.cs301.R;
 import edu.up.cs301.crazyeights.ceActionMessage.CEDrawAction;
 import edu.up.cs301.crazyeights.ceActionMessage.CEPlaceAction;
@@ -58,9 +60,9 @@ public class CELocalGame extends LocalGame {
         super.start(players);
         // deals cards to every player
         ceGameState.dealCards();
-        for (int i = 0; i < 10; i++) {
-            ceGameState.placeCard(ceGameState.getRandomCard());
-        }
+//        for (int i = 0; i < 10; i++) {
+//            ceGameState.placeCard(ceGameState.getRandomCard());
+//        }
         // tell the game that we are ready to display the GUI
         sendAllUpdatedState();
     }
@@ -90,7 +92,7 @@ public class CELocalGame extends LocalGame {
      */
     @Override
     protected boolean canMove(int playerIdx) {
-        return false;
+        return ((CEGameState) state).getPlayerToMove() == playerIdx;
     }
 
     /**
@@ -107,7 +109,7 @@ public class CELocalGame extends LocalGame {
     }
 
     /**
-     * Makes a move on behalf of a player.
+     * This method is called when a new action arrives from a player
      *
      * @param action
      * 			The move that the player has sent to the game
@@ -116,11 +118,14 @@ public class CELocalGame extends LocalGame {
      */
     @Override
     protected boolean makeMove(GameAction action) {
-        GamePlayer player = (GamePlayer) action.getPlayer();
+        GamePlayer player = action.getPlayer();
         if (action instanceof CEDrawAction) {
             ceGameState.drawCard(player);
+            ceGameState.setNumPlayerTurn();
             return true;
         } else if (action instanceof CEPlaceAction) {
+            ceGameState.placeCard(((CEPlaceAction) action).getSelectedCard());
+            ceGameState.setNumPlayerTurn();
             return true;
         }
         return false;

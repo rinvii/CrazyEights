@@ -19,6 +19,7 @@ public interface GamePlayer {
 
     public abstract ArrayList<CECard> getCardsInHand();
     public abstract CECard addCardInHand(CECard card);
+    public abstract void removeCardInHand(CECard card);
 
     // sets this player as the GUI player (implemented as final in the
     // major player classes)
