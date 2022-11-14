@@ -172,8 +172,9 @@ public class CESurfaceView extends SurfaceView {
                 }
             } else if (player instanceof CEDumbAI || player instanceof CESmartAI) {
                 if (!topFilled) {
-                    for (CECard card : player.getCardsInHand()) {
+                    for (int i = 0; i < player.getCardsInHand().size(); i++) {
                         ArrayList<CECard> cardsInHand = player.getCardsInHand();
+                        CECard card = cardsInHand.get(i);
                         int numOfCards = cardsInHand.size();
                         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
                         int top = ADJUSTED_CARD_HEIGHT * 2;
@@ -190,8 +191,9 @@ public class CESurfaceView extends SurfaceView {
                     }
                     topFilled = true;
                 } else if (!rightFilled) {
-                    for (CECard card : player.getCardsInHand()) {
+                    for (int i = 0; i < player.getCardsInHand().size(); i++) {
                         ArrayList<CECard> cardsInHand = player.getCardsInHand();
+                        CECard card = cardsInHand.get(i);
                         int numOfCards = cardsInHand.size();
                         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
                         int top = canvasHeight / 2 - ADJUSTED_CARD_HEIGHT * 3 + 50;
@@ -212,8 +214,9 @@ public class CESurfaceView extends SurfaceView {
                     }
                     rightFilled = true;
                 } else {
-                    for (CECard card : player.getCardsInHand()) {
+                    for (int i = 0; i < player.getCardsInHand().size(); i++) {
                         ArrayList<CECard> cardsInHand = player.getCardsInHand();
+                        CECard card = cardsInHand.get(i);
                         int numOfCards = cardsInHand.size();
                         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
                         int top = canvasHeight / 2 - ADJUSTED_CARD_HEIGHT * 3 + 50;
@@ -254,8 +257,8 @@ public class CESurfaceView extends SurfaceView {
         }
 
         // draw discardPile
-        for (CECard card : state.discardPile) {
-            Log.e("discardPile", card.face.name() + " " + card.suit.name());
+        for (int i = 0; i < state.discardPile.size(); i++) {
+            CECard card = state.discardPile.get(i);
             Bitmap bmp = BitmapFactory.decodeResource(getResources(), card.getId());
             int top = ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) + ADJUSTED_CARD_HEIGHT * 3) / 2 - ADJUSTED_CARD_HALF_HEIGHT;
             int left = canvasWidth / 2 - ADJUSTED_CARD_HALF_WIDTH;

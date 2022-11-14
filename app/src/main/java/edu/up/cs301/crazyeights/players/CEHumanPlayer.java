@@ -102,6 +102,8 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
      */
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
+        if (motionEvent.getAction() != MotionEvent.ACTION_UP) return true;
+
         // x and y position of the touch
         float x = motionEvent.getX();
         float y = motionEvent.getY();

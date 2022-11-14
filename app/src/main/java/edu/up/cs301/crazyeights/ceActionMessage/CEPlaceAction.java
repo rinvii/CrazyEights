@@ -21,8 +21,7 @@ public class CEPlaceAction extends GameAction {
      */
     public CEPlaceAction(GamePlayer player, CECard selectedCard) {
         super(player);
-        this.selectedCard = new CECard(selectedCard);
-        player.removeCardInHand(selectedCard);
+        this.selectedCard = selectedCard;
     }
 
     public CECard getSelectedCard() {

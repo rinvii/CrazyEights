@@ -31,7 +31,7 @@ public class CEDumbAI extends GameComputerPlayer {
 
         CEGameState ceGameState = new CEGameState((CEGameState) info);
 
-        if (ceGameState.getPlayerToMove() != this.playerNum) {
+        if (ceGameState.getPlayerToMove() != this.playerNum || this.cardsInHand.size() == 0) {
             return;
         } else {
             CECard randomCard = this.cardsInHand.get(new Random().nextInt(this.cardsInHand.size()));

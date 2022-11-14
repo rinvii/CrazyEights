@@ -119,12 +119,16 @@ public class CELocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
         GamePlayer player = action.getPlayer();
+
+        if (getPlayerIdx(player) != ceGameState.getPlayerToMove()) return false;
+
         if (action instanceof CEDrawAction) {
             ceGameState.drawCard(player);
             ceGameState.setNumPlayerTurn();
             return true;
         } else if (action instanceof CEPlaceAction) {
             ceGameState.placeCard(((CEPlaceAction) action).getSelectedCard());
+            player.removeCardInHand(((CEPlaceAction) action).getSelectedCard());
             ceGameState.setNumPlayerTurn();
             return true;
         }
