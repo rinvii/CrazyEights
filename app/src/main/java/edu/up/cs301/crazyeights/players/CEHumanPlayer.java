@@ -1,6 +1,7 @@
 package edu.up.cs301.crazyeights.players;
 
 import android.graphics.Canvas;
+import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -111,14 +112,18 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
 
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_UP:
+                // player clicks on their hand
                 for (int i = 0; i < this.cardsInHand.size(); i++) {
                     CECard card = this.cardsInHand.get(i);
+                    if (card == null) return false;
                     if (card.bounds.contains((int) x, (int) y)) {
                         game.sendAction(new CEPlaceAction(this, card));
                         Log.i("Player Action", "Human Player playing " + card.face.name() + " " + card.suit.name());
+                        return true;
                     }
                 }
-                if(((view.getHeight()-view.getHeight()/4)>y)&&((view.getWidth()/3)<x&&(view.getWidth()-view.getWidth()/3)>x)){//this needs to be optimized
+                // player clicks on the draw pile
+                if(surfaceView.getDrawPileBoundaries().contains((int) x, (int) y)) {
                     game.sendAction(new CEDrawAction(this));
                     Log.i("Player Action", "Human Player drawing");
                 }

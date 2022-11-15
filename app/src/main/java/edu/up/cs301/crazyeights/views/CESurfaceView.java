@@ -37,12 +37,14 @@ import edu.up.cs301.game.GameFramework.players.GamePlayer;
 public class CESurfaceView extends SurfaceView {
 
     // Card dimensions
+    private final int cardWidthRatio = 8; // cards it will take to fill up the the screen width-wise
+    private final int cardLengthRatio = 10; // cards it will take to fill up the the screen width-wise
     private final int CARD_WIDTH = 500;
     private final int CARD_HEIGHT = 726;
-    private final int ADJUSTED_CARD_WIDTH = CARD_WIDTH / 3;
-    private final int ADJUSTED_CARD_HEIGHT = CARD_HEIGHT / 3;
-    private final int ADJUSTED_CARD_HALF_WIDTH = ADJUSTED_CARD_WIDTH / 2;
-    private final int ADJUSTED_CARD_HALF_HEIGHT = ADJUSTED_CARD_HEIGHT / 2;
+//    private final int ADJUSTED_CARD_WIDTH = CARD_WIDTH / 3;
+//    private final int ADJUSTED_CARD_HEIGHT = CARD_HEIGHT / 3;
+//    private final int ADJUSTED_CARD_HALF_WIDTH = ADJUSTED_CARD_WIDTH / 2;
+//    private final int ADJUSTED_CARD_HALF_HEIGHT = ADJUSTED_CARD_HEIGHT / 2;
 
     boolean rightFilled;
     boolean topFilled;
@@ -52,6 +54,8 @@ public class CESurfaceView extends SurfaceView {
 
     // the game state
     protected CEGameState state;
+
+    protected Rect drawPileBoundaries;
 
     /**
      * Constructor for the CESurfaceView class.
@@ -118,6 +122,10 @@ public class CESurfaceView extends SurfaceView {
         // Canvas dimensions
         int canvasWidth = canvas.getWidth();
         int canvasHeight = canvas.getHeight();
+        final int ADJUSTED_CARD_WIDTH = canvasWidth / cardWidthRatio;
+        final int ADJUSTED_CARD_HEIGHT = canvasHeight / cardLengthRatio;
+        final int ADJUSTED_CARD_HALF_WIDTH = ADJUSTED_CARD_WIDTH / 2;
+        final int ADJUSTED_CARD_HALF_HEIGHT = ADJUSTED_CARD_HEIGHT / 2;
 
         // green alignment region paint
         Paint strokePaint = new Paint();
@@ -140,22 +148,20 @@ public class CESurfaceView extends SurfaceView {
                     // bitmap to draw the card onto
                     Bitmap bmp = BitmapFactory.decodeResource(getResources(), card.getId());
 
-                    Log.i("CARD ID", card.face.name() + " " + card.suit.name() + " index: " + i);
-
                     // top starts at the bottom and we subtract two card heights
-                    int top = canvasHeight - ADJUSTED_CARD_HEIGHT * 1 - 100;
+                    int top = canvasHeight - (ADJUSTED_CARD_HEIGHT + canvasHeight / 24) - canvasHeight / 24;
                     // bottom boundary complete with full card height
-                    int bottom = top + ADJUSTED_CARD_HEIGHT;
+                    int bottom = top + (ADJUSTED_CARD_HEIGHT + canvasHeight / 24);
                     // card left boundary starts at the left edge of screen which uses the
                     // product of the card's index and the card's half width to
                     // achieve a fan fold effect, then the entire fan is shifted to the right
                     // by calculating the total width of the fan and subtracting from the canvas
                     // width and by diving in two and adding the calculation to every card thereby
                     // centering the entire hand
-                    int left = (ADJUSTED_CARD_HALF_WIDTH * cardsInHand.indexOf(card))
-                            + (canvasWidth - ((numOfCards + 1) * ADJUSTED_CARD_HALF_WIDTH)) / 2;
+                    int left = ((ADJUSTED_CARD_HALF_WIDTH + canvasWidth / 32) * cardsInHand.indexOf(card))
+                            + (canvasWidth - ((numOfCards + 1) * (ADJUSTED_CARD_HALF_WIDTH + canvasWidth / 32))) / 2;
                     // complete the card's right boundary with a full card width
-                    int right = left + ADJUSTED_CARD_WIDTH;
+                    int right = left + (ADJUSTED_CARD_WIDTH + canvasWidth / 16);
 
                     // check if bitmap exists and draw it
                     if (bmp != null) {
@@ -167,9 +173,9 @@ public class CESurfaceView extends SurfaceView {
 
                     // store visible card boundaries to the card object for listener use
                     if (cardsInHand.indexOf(card) == numOfCards - 1) {
-                        card.setBounds(new Rect(left, top, left + ADJUSTED_CARD_WIDTH, bottom));
+                        card.setBounds(new Rect(left, top, left + ADJUSTED_CARD_WIDTH + canvasWidth / 16, bottom));
                     } else {
-                        card.setBounds(new Rect(left, top, left + ADJUSTED_CARD_HALF_WIDTH, bottom));
+                        card.setBounds(new Rect(left, top, left + ADJUSTED_CARD_HALF_WIDTH + canvasWidth / 32, bottom));
                     }
                 }
             } else if (player instanceof CEDumbAI || player instanceof CESmartAI) {
@@ -179,7 +185,7 @@ public class CESurfaceView extends SurfaceView {
                         CECard card = cardsInHand.get(i);
                         int numOfCards = cardsInHand.size();
                         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
-                        int top = ADJUSTED_CARD_HEIGHT * 1 + 150;
+                        int top = ADJUSTED_CARD_HEIGHT + canvasHeight / 16;
                         int bottom = top + ADJUSTED_CARD_HEIGHT;
                         int right = canvasWidth - (ADJUSTED_CARD_HALF_WIDTH * cardsInHand.indexOf(card))
                                 - (canvasWidth - ((numOfCards + 1) * ADJUSTED_CARD_HALF_WIDTH)) / 2;
@@ -198,16 +204,17 @@ public class CESurfaceView extends SurfaceView {
                         CECard card = cardsInHand.get(i);
                         int numOfCards = cardsInHand.size();
                         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
-                        int top = canvasHeight / 2 - ADJUSTED_CARD_HEIGHT * 3 + 50;
-                        int bottom = top + ADJUSTED_CARD_HEIGHT;
-                        int right = canvasWidth - (ADJUSTED_CARD_HALF_WIDTH * cardsInHand.indexOf(card))
-                                - (canvasWidth - ((numOfCards + 1) * ADJUSTED_CARD_HALF_WIDTH)) + ADJUSTED_CARD_HEIGHT
-                                + (((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) - ADJUSTED_CARD_HEIGHT * 3) - (ADJUSTED_CARD_HALF_WIDTH * (numOfCards + 1))) / 2;
-                        int left = right - ADJUSTED_CARD_WIDTH;
+                        int top = ADJUSTED_CARD_HALF_WIDTH + ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16
+                                + ADJUSTED_CARD_HALF_WIDTH * (cardsInHand.size() - 1 - cardsInHand.indexOf(card))
+                                + ((canvasHeight - ADJUSTED_CARD_HEIGHT - canvasHeight / 24 - (ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16))
+                                - ((numOfCards + 1) * ADJUSTED_CARD_HALF_WIDTH)) / 2;
+                        int left = canvasWidth - ADJUSTED_CARD_HALF_HEIGHT - canvasWidth / 50;
                         if (bmp != null) {
                             canvas.save();
-                            canvas.rotate(90, canvasWidth / 2, canvasHeight / 2);
-                            canvas.drawBitmap(bmp, null, new Rect(left, top, right, bottom), new Paint());
+                            left -= ADJUSTED_CARD_HALF_WIDTH;
+                            top -= ADJUSTED_CARD_HALF_HEIGHT;
+                            canvas.rotate(90, left + ADJUSTED_CARD_HALF_WIDTH, top + ADJUSTED_CARD_HALF_HEIGHT);
+                            canvas.drawBitmap(bmp, null, new Rect(left, top, left + ADJUSTED_CARD_WIDTH, top + ADJUSTED_CARD_HEIGHT), new Paint());
                             canvas.restore();
                             bmp.recycle();
                         } else {
@@ -221,16 +228,17 @@ public class CESurfaceView extends SurfaceView {
                         CECard card = cardsInHand.get(i);
                         int numOfCards = cardsInHand.size();
                         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
-                        int top = canvasHeight / 2 - ADJUSTED_CARD_HEIGHT * 3 + 50;
-                        int bottom = top + ADJUSTED_CARD_HEIGHT;
-                        int right = canvasWidth - (ADJUSTED_CARD_HALF_WIDTH * cardsInHand.indexOf(card))
-                                - (canvasWidth - ((numOfCards + 1) * ADJUSTED_CARD_HALF_WIDTH))
-                                + (((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) - ADJUSTED_CARD_HEIGHT * 3) - (ADJUSTED_CARD_HALF_WIDTH * (numOfCards + 1 ))) / 2;
-                        int left = right - ADJUSTED_CARD_WIDTH;
+                        int top = ADJUSTED_CARD_HALF_WIDTH + ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16
+                                + ADJUSTED_CARD_HALF_WIDTH * cardsInHand.indexOf(card)
+                                + ((canvasHeight - ADJUSTED_CARD_HEIGHT - canvasHeight / 24 - (ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16))
+                                - ((numOfCards + 1) * ADJUSTED_CARD_HALF_WIDTH)) / 2;
+                        int left = ADJUSTED_CARD_HALF_HEIGHT + canvasWidth / 50;
                         if (bmp != null) {
                             canvas.save();
-                            canvas.rotate(-90, canvasWidth / 2, canvasHeight / 2);
-                            canvas.drawBitmap(bmp, null, new Rect(left, top, right, bottom), new Paint());
+                            left -= ADJUSTED_CARD_HALF_WIDTH;
+                            top -= ADJUSTED_CARD_HALF_HEIGHT;
+                            canvas.rotate(90, left + ADJUSTED_CARD_HALF_WIDTH, top + ADJUSTED_CARD_HALF_HEIGHT);
+                            canvas.drawBitmap(bmp, null, new Rect(left, top, left + ADJUSTED_CARD_WIDTH, top + ADJUSTED_CARD_HEIGHT), new Paint());
                             canvas.restore();
                             bmp.recycle();
                         } else {
@@ -242,28 +250,42 @@ public class CESurfaceView extends SurfaceView {
         }
 
         // draw drawPile
+        int drawPileTop = 0;
+        int drawPileLeft = 0;
+        int drawPileBottom = 0;
+
         for (int i = 0; i < 7; i++) {
             Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
-            int top = canvasHeight / 2 - ADJUSTED_CARD_HALF_HEIGHT;
-            int bottom = top + ADJUSTED_CARD_HEIGHT;
-            int right = canvasWidth - ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) - ADJUSTED_CARD_HEIGHT * 3)
-                    + ADJUSTED_CARD_WIDTH * 4 - (i * (10));
-            int left = right - ADJUSTED_CARD_WIDTH;
+            int top = ADJUSTED_CARD_HALF_WIDTH * 3 + ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16
+                    + (canvasHeight / 241) * (7 - i);
+            int left = canvasWidth / 2;
             if (bmp != null) {
                 canvas.save();
-                canvas.rotate(90, canvasWidth / 2, canvasHeight / 2);
-                canvas.drawBitmap(bmp, null, new Rect(left, top, right, bottom), new Paint());
+                left -= ADJUSTED_CARD_HALF_WIDTH;
+                top -= ADJUSTED_CARD_HALF_HEIGHT;
+                canvas.rotate(90, left + ADJUSTED_CARD_HALF_WIDTH, top + ADJUSTED_CARD_HALF_HEIGHT);
+                canvas.drawBitmap(bmp, null, new Rect(left, top, left + ADJUSTED_CARD_WIDTH, top + ADJUSTED_CARD_HEIGHT), new Paint());
                 canvas.restore();
                 bmp.recycle();
+                // get draw pile boundaries
+                if (i == 0) {
+                    drawPileBottom = top + ADJUSTED_CARD_HEIGHT;
+                    drawPileLeft = left;
+                } else if (i == 6) {
+                    drawPileTop = top;
+                }
             }
         }
+
+        // assign draw pile boundaries for listeners to know they are clicking the drawPile
+        this.drawPileBoundaries = new Rect(drawPileLeft, drawPileTop, drawPileLeft + ADJUSTED_CARD_HEIGHT, drawPileBottom);
 
         // draw discardPile
         for (int i = 0; i < state.discardPile.size(); i++) {
             CECard card = state.discardPile.get(i);
             Bitmap bmp = BitmapFactory.decodeResource(getResources(), card.getId());
-            int top = ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) + ADJUSTED_CARD_HEIGHT * 3) / 2 - ADJUSTED_CARD_HALF_HEIGHT;
-            int left = canvasWidth / 2 - ADJUSTED_CARD_HALF_WIDTH;
+            int top = (canvasHeight - ADJUSTED_CARD_HEIGHT - canvasHeight / 24 + (ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16)) / 2;
+            int left = canvasWidth / 2;
             int rotation = 0;
 
             if (card.getOffsetPos() == null  && card.rotation == null) {
@@ -280,20 +302,29 @@ public class CESurfaceView extends SurfaceView {
 
             if (bmp != null) {
                 canvas.save();
-                canvas.rotate(rotation, canvasWidth / 2, ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) + ADJUSTED_CARD_HEIGHT * 3) / 2);
+                left -= ADJUSTED_CARD_HALF_WIDTH;
+                top -= ADJUSTED_CARD_HALF_HEIGHT;
+                canvas.rotate(rotation, left + ADJUSTED_CARD_HALF_WIDTH, top + ADJUSTED_CARD_HALF_HEIGHT);
                 canvas.drawBitmap(bmp, null, new Rect(left, top, left + ADJUSTED_CARD_WIDTH, top + ADJUSTED_CARD_HEIGHT), new Paint());
                 canvas.restore();
             } else {
-                Log.e("discardPile ERR", card.face.name() + " " + card.suit.name());
+                Log.e("discardPile", card.face.name() + " " + card.suit.name());
             }
         }
 
         topFilled = false;
         rightFilled = false;
 
-//        canvas.drawRect(canvasWidth/2-5, 0, canvasWidth/2+5, canvasHeight, strokePaint);
-//        canvas.drawRect(0, ADJUSTED_CARD_HEIGHT * 3, canvasWidth, (canvasHeight - ADJUSTED_CARD_HEIGHT * 2), strokePaint);
-//        canvas.drawRect(0, ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) + ADJUSTED_CARD_HEIGHT * 3) / 2, canvasWidth, ((canvasHeight - ADJUSTED_CARD_HEIGHT * 2) + ADJUSTED_CARD_HEIGHT * 3) / 2, strokePaint);
+        canvas.drawRect(canvasWidth/2, 0, canvasWidth/2, canvasHeight, strokePaint);
+        canvas.drawRect(0, canvasHeight / 2, canvasWidth, canvasHeight / 2
+                , strokePaint);
+        // playing region
+        canvas.drawRect(0, ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16, canvasWidth, canvasHeight - ADJUSTED_CARD_HEIGHT - canvasHeight / 24, strokePaint);
+        canvas.drawRect(0, (canvasHeight - ADJUSTED_CARD_HEIGHT - canvasHeight / 24 + (ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16)) / 2, canvasWidth, (canvasHeight - ADJUSTED_CARD_HEIGHT - canvasHeight / 24 + (ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16)) / 2, strokePaint);
+    }
+
+    public Rect getDrawPileBoundaries() {
+        return this.drawPileBoundaries;
     }
 
 }

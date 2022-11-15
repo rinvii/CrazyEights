@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.up.cs301.crazyeights.CECard;
+import edu.up.cs301.crazyeights.ceActionMessage.CEDrawAction;
 import edu.up.cs301.crazyeights.ceActionMessage.CEPlaceAction;
 import edu.up.cs301.crazyeights.infoMessage.CEGameState;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
@@ -34,14 +35,25 @@ public class CEDumbAI extends GameComputerPlayer {
         if (ceGameState.getPlayerToMove() != this.playerNum || this.cardsInHand.size() == 0) {
             return;
         } else {
-            CECard randomCard = this.cardsInHand.get(new Random().nextInt(this.cardsInHand.size()));
-            Log.i("Player Action", "player " + this.playerNum + " playing " + randomCard.face.name() + " " + randomCard.suit);
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+            // 1/8 chance of AI drawing
+            if (new Random().nextInt(8) == 0) {
+                Log.i("Player Action", "Dumb AI" + this.playerNum + " drawing");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
 //            e.printStackTrace();
+                }
+                game.sendAction(new CEDrawAction(this));
+            } else {
+                CECard randomCard = this.cardsInHand.get(new Random().nextInt(this.cardsInHand.size()));
+                Log.i("Player Action", "DUMB AI " + this.playerNum + " playing " + randomCard.face.name() + " " + randomCard.suit);
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+//            e.printStackTrace();
+                }
+                game.sendAction(new CEPlaceAction(this, randomCard));
             }
-            game.sendAction(new CEPlaceAction(this, randomCard));
         }
     }
 
