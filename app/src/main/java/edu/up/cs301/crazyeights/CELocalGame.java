@@ -95,6 +95,8 @@ public class CELocalGame extends LocalGame {
         return ((CEGameState) state).getPlayerToMove() == playerIdx;
     }
 
+
+
     /**
      * Check if the game is over. It is over, return a string that tells
      * who the winner(s), if any, are. If the game is not over, return null;
@@ -105,6 +107,16 @@ public class CELocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
+        /**
+         * for(int i=0;i<players.length();i++{
+         * if(player[i].cardsInHand.length()==0){
+         * return true;
+         * }
+         * else{
+         * return false;
+         * }
+         * }
+         */
         return null;
     }
 
@@ -127,10 +139,15 @@ public class CELocalGame extends LocalGame {
             ceGameState.setNumPlayerTurn();
             return true;
         } else if (action instanceof CEPlaceAction) {
-            ceGameState.placeCard(((CEPlaceAction) action).getSelectedCard());
-            player.removeCardInHand(((CEPlaceAction) action).getSelectedCard());
-            ceGameState.setNumPlayerTurn();
-            return true;
+            if(ceGameState.checkCardEligibility(((CEPlaceAction) action).getSelectedCard())){
+                ceGameState.placeCard(((CEPlaceAction) action).getSelectedCard());
+                player.removeCardInHand(((CEPlaceAction) action).getSelectedCard());
+                ceGameState.setNumPlayerTurn();
+                return true;
+            }
+            else{
+                return true;
+            }
         }
         return false;
     }

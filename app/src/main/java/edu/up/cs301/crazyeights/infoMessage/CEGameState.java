@@ -146,17 +146,17 @@ public class CEGameState extends GameState implements Serializable {
      * @param card
      * @return: playable card
      */
-    public CECard checkCardEligibility(CECard card) {
+    public boolean checkCardEligibility(CECard card) {
         CECard recentDiscardedCard;
         if (discardPile.size() == 0) {
-            return card;
+            return true;
         }
 
         recentDiscardedCard = discardPile.get(discardPile.size()-1);
         if (card.face == recentDiscardedCard.face || card.suit == recentDiscardedCard.suit) {
-            return card;
+            return true;
         }
-        return null;
+        return false;
     }
 
     /**

@@ -53,6 +53,7 @@ public class CEDumbAI extends GameComputerPlayer {
 //            e.printStackTrace();
                 }
                 game.sendAction(new CEPlaceAction(this, randomCard));
+                //game.sendAction(new CEDrawAction(this));
             }
         }
     }
