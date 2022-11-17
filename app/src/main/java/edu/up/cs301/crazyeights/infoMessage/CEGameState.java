@@ -156,6 +156,10 @@ public class CEGameState extends GameState implements Serializable {
         if (card.face == recentDiscardedCard.face || card.suit == recentDiscardedCard.suit) {
             return true;
         }
+
+        if(card.face == CECard.FACE.EIGHT){
+            return true;
+        }
         return false;
     }
 
