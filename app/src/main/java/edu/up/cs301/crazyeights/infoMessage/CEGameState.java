@@ -178,10 +178,10 @@ public class CEGameState extends GameState implements Serializable {
      */
     public void setNumPlayerTurn()
     {
-        if (playerToMove == 3){
-            playerToMove = 0;
+        if (playerToMove == 0){
+            playerToMove = 3;
         } else {
-            playerToMove++;
+            playerToMove=playerToMove-1;
         }
     }
 

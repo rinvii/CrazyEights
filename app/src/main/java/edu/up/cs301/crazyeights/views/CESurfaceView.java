@@ -48,6 +48,7 @@ public class CESurfaceView extends SurfaceView {
 
     boolean rightFilled;
     boolean topFilled;
+    boolean leftFilled;
 
     // the current GUI holder's index of their player object in the player list
     private int ourIndex;
@@ -179,7 +180,32 @@ public class CESurfaceView extends SurfaceView {
                     }
                 }
             } else if (player instanceof CEDumbAI || player instanceof CESmartAI) {
-                if (!topFilled) {
+                if(!leftFilled) {
+                    for (int i = 0; i < player.getCardsInHand().size(); i++) {
+                        ArrayList<CECard> cardsInHand = player.getCardsInHand();
+                        CECard card = cardsInHand.get(i);
+                        int numOfCards = cardsInHand.size();
+                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
+                        int top = ADJUSTED_CARD_HALF_WIDTH + ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16
+                                + ADJUSTED_CARD_HALF_WIDTH * cardsInHand.indexOf(card)
+                                + ((canvasHeight - ADJUSTED_CARD_HEIGHT - canvasHeight / 24 - (ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16))
+                                - ((numOfCards + 1) * ADJUSTED_CARD_HALF_WIDTH)) / 2;
+                        int left = ADJUSTED_CARD_HALF_HEIGHT + canvasWidth / 50;
+                        if (bmp != null) {
+                            canvas.save();
+                            left -= ADJUSTED_CARD_HALF_WIDTH;
+                            top -= ADJUSTED_CARD_HALF_HEIGHT;
+                            canvas.rotate(90, left + ADJUSTED_CARD_HALF_WIDTH, top + ADJUSTED_CARD_HALF_HEIGHT);
+                            canvas.drawBitmap(bmp, null, new Rect(left, top, left + ADJUSTED_CARD_WIDTH, top + ADJUSTED_CARD_HEIGHT), new Paint());
+                            canvas.restore();
+                            bmp.recycle();
+                        } else {
+                            Log.e("CESurfaceView", card.face.name() + " " + card.suit.name());
+                        }
+                    }
+                    leftFilled=true;
+                }
+                else if (!topFilled) {
                     for (int i = 0; i < player.getCardsInHand().size(); i++) {
                         ArrayList<CECard> cardsInHand = player.getCardsInHand();
                         CECard card = cardsInHand.get(i);
@@ -222,29 +248,6 @@ public class CESurfaceView extends SurfaceView {
                         }
                     }
                     rightFilled = true;
-                } else {
-                    for (int i = 0; i < player.getCardsInHand().size(); i++) {
-                        ArrayList<CECard> cardsInHand = player.getCardsInHand();
-                        CECard card = cardsInHand.get(i);
-                        int numOfCards = cardsInHand.size();
-                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
-                        int top = ADJUSTED_CARD_HALF_WIDTH + ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16
-                                + ADJUSTED_CARD_HALF_WIDTH * cardsInHand.indexOf(card)
-                                + ((canvasHeight - ADJUSTED_CARD_HEIGHT - canvasHeight / 24 - (ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16))
-                                - ((numOfCards + 1) * ADJUSTED_CARD_HALF_WIDTH)) / 2;
-                        int left = ADJUSTED_CARD_HALF_HEIGHT + canvasWidth / 50;
-                        if (bmp != null) {
-                            canvas.save();
-                            left -= ADJUSTED_CARD_HALF_WIDTH;
-                            top -= ADJUSTED_CARD_HALF_HEIGHT;
-                            canvas.rotate(90, left + ADJUSTED_CARD_HALF_WIDTH, top + ADJUSTED_CARD_HALF_HEIGHT);
-                            canvas.drawBitmap(bmp, null, new Rect(left, top, left + ADJUSTED_CARD_WIDTH, top + ADJUSTED_CARD_HEIGHT), new Paint());
-                            canvas.restore();
-                            bmp.recycle();
-                        } else {
-                            Log.e("CESurfaceView", card.face.name() + " " + card.suit.name());
-                        }
-                    }
                 }
             }
         }
@@ -314,6 +317,7 @@ public class CESurfaceView extends SurfaceView {
 
         topFilled = false;
         rightFilled = false;
+        leftFilled = false;
 
         canvas.drawRect(canvasWidth/2, 0, canvasWidth/2, canvasHeight, strokePaint);
         canvas.drawRect(0, canvasHeight / 2, canvasWidth, canvasHeight / 2
