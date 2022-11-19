@@ -169,7 +169,7 @@ public class CEGameState extends GameState implements Serializable {
      */
     public void drawCard(GamePlayer player) {
         int index = new Random().nextInt(drawPile.size());
-        player.addCardInHand(drawPile.get(index));
+        player.addCardInHand(new CECard(drawPile.get(index)));
 //        drawPile.remove(index);
     }
 
@@ -178,10 +178,10 @@ public class CEGameState extends GameState implements Serializable {
      */
     public void setNumPlayerTurn()
     {
-        if (playerToMove == 0){
-            playerToMove = 3;
+        if (playerToMove == 3){
+            playerToMove = 0;
         } else {
-            playerToMove=playerToMove-1;
+            playerToMove++;
         }
     }
 

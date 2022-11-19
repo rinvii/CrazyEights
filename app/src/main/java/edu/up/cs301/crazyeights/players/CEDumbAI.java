@@ -10,6 +10,7 @@ import edu.up.cs301.crazyeights.ceActionMessage.CEDrawAction;
 import edu.up.cs301.crazyeights.ceActionMessage.CEPlaceAction;
 import edu.up.cs301.crazyeights.infoMessage.CEGameState;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
+import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
 import edu.up.cs301.game.GameFramework.infoMessage.NotYourTurnInfo;
 import edu.up.cs301.game.GameFramework.players.GameComputerPlayer;
 
@@ -28,7 +29,7 @@ public class CEDumbAI extends GameComputerPlayer {
 
     @Override
     protected void receiveInfo(GameInfo info) {
-        if (info instanceof NotYourTurnInfo) return;
+        if (info instanceof NotYourTurnInfo || info instanceof IllegalMoveInfo) return;
 
         CEGameState ceGameState = new CEGameState((CEGameState) info);
 
@@ -39,21 +40,28 @@ public class CEDumbAI extends GameComputerPlayer {
             if (new Random().nextInt(8) == 0) {
                 Log.i("Player Action", "Dumb AI" + this.playerNum + " drawing");
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
 //            e.printStackTrace();
                 }
                 game.sendAction(new CEDrawAction(this));
             } else {
-                CECard randomCard = this.cardsInHand.get(new Random().nextInt(this.cardsInHand.size()));
-                Log.i("Player Action", "DUMB AI " + this.playerNum + " playing " + randomCard.face.name() + " " + randomCard.suit);
+                for (int i = 0; i < this.cardsInHand.size(); i++) {
+                    if (ceGameState.checkCardEligibility(this.cardsInHand.get(i))) {
+                        CECard randomCard = this.cardsInHand.get(i);
+                        Log.i("Player Action", "DUMB AI " + this.playerNum + " playing " + randomCard.face.name() + " " + randomCard.suit);
+                        game.sendAction(new CEPlaceAction(this, randomCard));
+                        //game.sendAction(new CEDrawAction(this));
+                        return;
+                    }
+                }
+                Log.i("Player Action", "Dumb AI" + this.playerNum + " drawing");
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
 //            e.printStackTrace();
                 }
-                game.sendAction(new CEPlaceAction(this, randomCard));
-                //game.sendAction(new CEDrawAction(this));
+                game.sendAction(new CEDrawAction(this));
             }
         }
     }

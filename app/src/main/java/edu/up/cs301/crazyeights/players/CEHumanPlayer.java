@@ -77,6 +77,8 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         else {
             surfaceView.setState((CEGameState)info);
             surfaceView.invalidate();
+            surfaceView.invalidate();
+            surfaceView.invalidate();
             Logger.log(TAG, "receiving");
         }
     }
@@ -104,18 +106,16 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
      */
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (motionEvent.getAction() != MotionEvent.ACTION_UP) return true;
-
         // x and y position of the touch
         float x = motionEvent.getX();
         float y = motionEvent.getY();
-
+        Log.e("action", motionEvent.getAction() + "");
         switch (motionEvent.getAction()) {
-            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_DOWN:
                 // player clicks on their hand
                 for (int i = 0; i < this.cardsInHand.size(); i++) {
                     CECard card = this.cardsInHand.get(i);
-                    if (card == null) return false;
+                    if (card.bounds == null) return false;
                     if (card.bounds.contains((int) x, (int) y)) {
                         game.sendAction(new CEPlaceAction(this, card));
                         Log.i("Player Action", "Human Player playing " + card.face.name() + " " + card.suit.name());
