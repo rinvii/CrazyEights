@@ -36,7 +36,7 @@ public class CEDumbAI extends GameComputerPlayer {
             return;
         } else {
             // 1/8 chance of AI drawing
-            if (new Random().nextInt(8) == 0) {
+            if (new Random().nextInt(4) == 0) {
                 Log.i("Player Action", "Dumb AI" + this.playerNum + " drawing");
                 try {
                     Thread.sleep(2000);
