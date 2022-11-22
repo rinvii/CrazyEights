@@ -13,18 +13,19 @@ import edu.up.cs301.game.GameFramework.players.GamePlayer;
 
 public class CEGameStateTest {
 
-    @Test
-    public void init() {
 
-    }
-
+    /** Tests if player turn is random at the beginning of the game
+     * This was written by: */
     @Test
     public void testInitialPlayerTurnRandomness() {
         GamePlayer[] players = new GamePlayer[4];
         CEGameState gamestate = new CEGameState(players);
-
+        gamestate.setInitialPlayerToMoveTurn();
+        assertNotEquals(-1, gamestate.getPlayerToMove());
     }
 
+    /** Tests setDrawPile(): if all 52 cards are added to the drawPile
+     * This was written by: */
     @Test
     public void testIfDrawPileIsDealt() {
         GamePlayer[] players = new GamePlayer[4];
@@ -32,6 +33,8 @@ public class CEGameStateTest {
         assertEquals(52, gamestate.drawPile.size());
     }
 
+    /** Tests the deal() function: if 5 cards are dealt per player from the drawPile
+     * This was written by: */
     @Test
     public void testIfCardsAreDealt() {
         GamePlayer[] players = new GamePlayer[4];
@@ -46,18 +49,29 @@ public class CEGameStateTest {
         assertEquals(5, players[3].getCardsInHand().size());
     }
 
+    /** Tests placeCard(): if a card is placed into the discardPile
+     * This was written by: */
     @Test
     public void testIfCardIsPlaced() {
         GamePlayer[] players = new GamePlayer[4];
         CEGameState gamestate = new CEGameState(players);
-
+        CECard card1 = new CECard(CECard.FACE.KING, CECard.SUIT.HEART);
+        gamestate.placeCard(card1);
+        assertEquals(card1, gamestate.discardPile.get(gamestate.discardPile.size()-1));
     }
 
+    /** testIfRandomCardIsSelected()
+     *  This was writted by: Alex Melemai  */
     @Test
-    public void getRandomCard() {
-
+    public void testIfRandomCardIsSelected() {
+        GamePlayer[] players = new GamePlayer[4];
+        CEGameState gamestate = new CEGameState(players);
+        CECard card1 = gamestate.getRandomCard();
+        assertNotEquals(null, card1);
     }
 
+    /** Tests the functionality of checkCardEligibility()
+     *  This was written by: */
     @Test
     public void testIfCardIsEligible() {
         GamePlayer[] players = new GamePlayer[4];
@@ -73,6 +87,8 @@ public class CEGameStateTest {
         assertFalse(gamestate.checkCardEligibility(card4));
     }
 
+    /** Tests drawCard() function:
+     * This was written by: */
     @Test
     public void testIfCardIsDrawn() {
         GamePlayer[] players = new GamePlayer[4];
@@ -84,6 +100,8 @@ public class CEGameStateTest {
         assertEquals(1, players[0].getCardsInHand().size());
     }
 
+    /** Tests setPlayerTurn(): playerTurn moves counterclockwise
+     * This was written by: */
     @Test
     public void testIfPlayerTurnIsIncremented() {
         GamePlayer[] players = new GamePlayer[4];
@@ -93,7 +111,12 @@ public class CEGameStateTest {
         assertEquals(++playerTurn % 4, gamestate.playerToMove);
     }
 
+    /** Tests getPlayerTo Move()
+     * This was written by: */
     @Test
-    public void getPlayerToMove() {
+    public void testIfPlayerToMoveIsCorrect() {
+        GamePlayer[] players = new GamePlayer[4];
+        CEGameState gamestate = new CEGameState(players);
+
     }
 }

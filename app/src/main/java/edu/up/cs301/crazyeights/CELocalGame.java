@@ -61,6 +61,7 @@ public class CELocalGame extends LocalGame {
     public void start(GamePlayer[] players) {
         super.start(players);
         // deals cards to every player
+        ceGameState.setInitialPlayerToMoveTurn();
         ceGameState.dealCards();
         ceGameState.placeCard(ceGameState.getRandomCard());
 //        for (int i = 0; i < 10; i++) {

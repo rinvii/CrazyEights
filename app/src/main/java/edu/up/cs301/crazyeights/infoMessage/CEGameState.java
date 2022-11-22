@@ -49,9 +49,18 @@ public class CEGameState extends GameState implements Serializable {
     public void init() {
         drawPile = new ArrayList<CECard>(); // ArrayList of cards in the drawPile
         discardPile = new ArrayList<CECard>(); // Arraylist of cards in the discard pile
-        playerToMove = new Random().nextInt(playerList.length); // randomly choosing a players turn at start of game
         setDrawPile();
+        playerToMove = -1;
     }
+
+    /**
+     * Randomly choosing a players turn at start of game
+     */
+    public void setInitialPlayerToMoveTurn() {
+        playerToMove = new Random().nextInt(playerList.length); // randomly choosing a players turn at start of game
+    }
+
+
     /**
      * Populates drawPile with each drawable card
      */

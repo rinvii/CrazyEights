@@ -163,6 +163,10 @@ public class CESurfaceView extends SurfaceView {
                     // centering the entire hand
                     int left = ((ADJUSTED_CARD_HALF_WIDTH + canvasWidth / 32) * cardsInHand.indexOf(card))
                             + (canvasWidth - ((numOfCards + 1) * (ADJUSTED_CARD_HALF_WIDTH + canvasWidth / 32))) / 2;
+                    if(cardsInHand.size() >= 6) {
+                        left = ((ADJUSTED_CARD_HALF_WIDTH + canvasWidth / 64) * cardsInHand.indexOf(card))
+                                + (canvasWidth - ((numOfCards + 1) * (ADJUSTED_CARD_HALF_WIDTH + canvasWidth / 64))) / 2;
+                    }
                     // complete the card's right boundary with a full card width
                     int right = left + (ADJUSTED_CARD_WIDTH + canvasWidth / 16);
 
