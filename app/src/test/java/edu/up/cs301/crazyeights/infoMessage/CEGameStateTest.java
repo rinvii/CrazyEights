@@ -111,12 +111,14 @@ public class CEGameStateTest {
         assertEquals(++playerTurn % 4, gamestate.playerToMove);
     }
 
-    /** Tests getPlayerTo Move()
+    /** Tests getPlayerToMove()
      * This was written by: */
     @Test
     public void testIfPlayerToMoveIsCorrect() {
         GamePlayer[] players = new GamePlayer[4];
         CEGameState gamestate = new CEGameState(players);
-
+        gamestate.setNumPlayerTurn();
+        int playerTurn = new Integer(gamestate.playerToMove);
+        assertEquals(gamestate.playerToMove, playerTurn);
     }
 }
