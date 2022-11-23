@@ -39,6 +39,7 @@ public class CEGameState extends GameState implements Serializable {
      * @param players List of players
      */
     public CEGameState(GamePlayer[] players){
+        playerToMove = -1;
         playerList = players;
         init();
     }
@@ -51,7 +52,16 @@ public class CEGameState extends GameState implements Serializable {
         discardPile = new ArrayList<CECard>(); // Arraylist of cards in the discard pile
         playerToMove = new Random().nextInt(playerList.length); // randomly choosing a players turn at start of game
         setDrawPile();
+        playerToMove = -1;
     }
+
+    /**
+     * Randomly choosing a players turn at start of game
+     */
+    public void setInitialPlayerToMoveTurn() {
+        playerToMove = new Random().nextInt(playerList.length); // randomly choosing a players turn at start of game
+    }
+
 
     /**
      * Populates drawPile with each drawable card
@@ -66,15 +76,13 @@ public class CEGameState extends GameState implements Serializable {
         }
     }
 
-
     /**
-     * Populates drawPile with each drawable card
+     * Makes new discard
      */
     public void setDiscardPile() {
         discardPile = new ArrayList<CECard>();
         this.discardPile = discardPile;
     }
-
 
     /**
      * Create more instances of GameState
@@ -180,7 +188,7 @@ public class CEGameState extends GameState implements Serializable {
      */
     public void drawCard(GamePlayer player) {
         int index = new Random().nextInt(drawPile.size());
-        player.addCardInHand(drawPile.get(index));
+        player.addCardInHand(new CECard(drawPile.get(index)));
 //        drawPile.remove(index);
     }
 
@@ -189,10 +197,10 @@ public class CEGameState extends GameState implements Serializable {
      */
     public void setNumPlayerTurn()
     {
-        if (playerToMove == 0){
-            playerToMove = 3;
+        if (playerToMove == 3){
+            playerToMove = 0;
         } else {
-            playerToMove=playerToMove-1;
+            playerToMove++;
         }
     }
 

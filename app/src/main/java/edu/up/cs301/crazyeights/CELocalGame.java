@@ -6,6 +6,8 @@ import edu.up.cs301.R;
 import edu.up.cs301.crazyeights.ceActionMessage.CEDrawAction;
 import edu.up.cs301.crazyeights.ceActionMessage.CEPlaceAction;
 import edu.up.cs301.crazyeights.infoMessage.CEGameState;
+import edu.up.cs301.crazyeights.players.CEDumbAI;
+import edu.up.cs301.crazyeights.players.CESmartAI;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
@@ -59,7 +61,9 @@ public class CELocalGame extends LocalGame {
     public void start(GamePlayer[] players) {
         super.start(players);
         // deals cards to every player
+        ceGameState.setInitialPlayerToMoveTurn();
         ceGameState.dealCards();
+        ceGameState.placeCard(ceGameState.getRandomCard());
 //        for (int i = 0; i < 10; i++) {
 //            ceGameState.placeCard(ceGameState.getRandomCard());
 //        }
@@ -115,8 +119,7 @@ public class CELocalGame extends LocalGame {
           return null;
           }
          }
-
-        return null;
+          return null;
     }
 
     /**
@@ -134,11 +137,26 @@ public class CELocalGame extends LocalGame {
         if (getPlayerIdx(player) != ceGameState.getPlayerToMove()) return false;
 
         if (action instanceof CEDrawAction) {
+            if (player instanceof CEDumbAI || player instanceof CESmartAI) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+//            e.printStackTrace();
+                }
+            }
             ceGameState.drawCard(player);
             ceGameState.setNumPlayerTurn();
             return true;
         } else if (action instanceof CEPlaceAction) {
-            if(ceGameState.checkCardEligibility(((CEPlaceAction) action).getSelectedCard())){
+            if (ceGameState.checkCardEligibility(((CEPlaceAction) action).getSelectedCard())){
+
+                if (player instanceof CEDumbAI || player instanceof CESmartAI) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+//            e.printStackTrace();
+                    }
+                }
                 ceGameState.placeCard(((CEPlaceAction) action).getSelectedCard());
                 player.removeCardInHand(((CEPlaceAction) action).getSelectedCard());
                 if(checkIfGameOver()!=null){
@@ -148,9 +166,8 @@ public class CELocalGame extends LocalGame {
                 }
                 ceGameState.setNumPlayerTurn();
                 return true;
-            }
-            else{
-                return true;
+            } else {
+                return false;
             }
         }
         return false;
