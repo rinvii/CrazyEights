@@ -114,14 +114,14 @@ public class CEGameState extends GameState implements Serializable {
 
     public void tallyScores(){
         for (GamePlayer player : playerList) {
-            for(int i=0;i<player.getCardsInHand().size();i++){
+            for(int i=0;i<player.getCardsInHand().size();i++) {
                 CECard card = player.getCardsInHand().get(i);
                 player.setScore(card.getScore());
+            }
                 Log.e("tallyScores: ", String.valueOf(player.getScore()));
                 player.setCardsInHand();
             }
         }
-    }
 
     /**
      * Prints out GameState information in the form of a string
