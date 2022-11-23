@@ -73,6 +73,14 @@ public class CEGameState extends GameState implements Serializable {
             }
         }
     }
+    
+    /**
+     * Makes new discard
+     */
+    public void setDiscardPile() {
+        discardPile = new ArrayList<CECard>();
+        this.discardPile = discardPile;
+    }
 
     /**
      * Create more instances of GameState
