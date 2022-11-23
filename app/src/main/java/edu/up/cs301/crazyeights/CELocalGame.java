@@ -111,15 +111,12 @@ public class CELocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
-          for(int i=0;i<players.length;i++){
-          if(players[i].getCardsInHand().size()==0){
-          return players[i]+" wins!";
+          for(int i=0;i<players.length;i++) {
+              if (players[i].getCardsInHand().size() == 0) {
+                  return players[i] + " wins!";
+              }
           }
-          else{
-          return null;
-          }
-         }
-          return null;
+              return null;
     }
 
     /**
@@ -160,6 +157,7 @@ public class CELocalGame extends LocalGame {
                 ceGameState.placeCard(((CEPlaceAction) action).getSelectedCard());
                 player.removeCardInHand(((CEPlaceAction) action).getSelectedCard());
                 if(checkIfGameOver()!=null){
+                    ceGameState.tallyScores();
                     ceGameState.setDrawPile();
                     ceGameState.dealCards();
                     ceGameState.setDiscardPile();

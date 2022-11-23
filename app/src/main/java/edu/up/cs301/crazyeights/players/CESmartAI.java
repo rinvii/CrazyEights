@@ -8,6 +8,7 @@ import edu.up.cs301.game.GameFramework.players.GameComputerPlayer;
 
 public class CESmartAI extends GameComputerPlayer {
     private ArrayList<CECard> cardsInHand = new ArrayList<CECard>();
+    private int score;
 
     /**
      * constructor
@@ -17,6 +18,21 @@ public class CESmartAI extends GameComputerPlayer {
     public CESmartAI(String name) {
         super(name);
         this.cardsInHand = new ArrayList<>();
+        score = 0;
+    }
+
+    @Override
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int NewScore) {
+        this.score = score+NewScore;
+    }
+
+    public void setCardsInHand(){
+        ArrayList<CECard> newCardsInHand=new ArrayList<CECard>();
+        this.cardsInHand=newCardsInHand;
     }
 
     @Override

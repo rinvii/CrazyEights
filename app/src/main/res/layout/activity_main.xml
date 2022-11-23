@@ -12,5 +12,4 @@
         android:layout_height="match_parent"
         android:background="#FFFFFF" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

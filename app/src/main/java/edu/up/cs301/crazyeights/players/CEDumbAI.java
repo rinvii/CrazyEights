@@ -16,6 +16,7 @@ import edu.up.cs301.game.GameFramework.players.GameComputerPlayer;
 
 public class CEDumbAI extends GameComputerPlayer {
     private ArrayList<CECard> cardsInHand;
+    private int score;
 
     /**
      * constructor
@@ -25,6 +26,15 @@ public class CEDumbAI extends GameComputerPlayer {
     public CEDumbAI(String name) {
         super(name);
         this.cardsInHand = new ArrayList<>();
+        this.score = 0;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int NewScore) {
+        this.score = score+NewScore;
     }
 
     @Override
@@ -75,6 +85,11 @@ public class CEDumbAI extends GameComputerPlayer {
     public CECard addCardInHand(CECard card) {
         this.cardsInHand.add(card);
         return card;
+    }
+
+    public void setCardsInHand(){
+        ArrayList<CECard> newCardsInHand=new ArrayList<CECard>();
+        this.cardsInHand=newCardsInHand;
     }
 
     /**

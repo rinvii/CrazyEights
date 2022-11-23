@@ -20,6 +20,7 @@ public interface GamePlayer {
     public abstract ArrayList<CECard> getCardsInHand();
     public abstract CECard addCardInHand(CECard card);
     public abstract void removeCardInHand(CECard card);
+    public abstract int getScore();
 
     // sets this player as the GUI player (implemented as final in the
     // major player classes)
@@ -44,4 +45,7 @@ public interface GamePlayer {
     //TESTING
     public GameMainActivity getActivity();
 
+    void setScore(int i);
+
+    void setCardsInHand();
 }// interface GamePlayer

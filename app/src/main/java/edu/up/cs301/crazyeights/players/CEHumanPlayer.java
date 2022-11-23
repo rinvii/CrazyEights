@@ -33,7 +33,7 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
 
     // list of cards in the player's hand
     private ArrayList<CECard> cardsInHand;
-
+    private int score;
     /**
      * constructor
      *
@@ -44,6 +44,27 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         super(name);
         this.layoutId = layoutId;
         this.cardsInHand = new ArrayList<>();
+        score=0;
+    }
+
+    public void setCardsInHand(){
+        ArrayList<CECard> newCardsInHand=new ArrayList<CECard>();
+        this.cardsInHand=newCardsInHand;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    @Override
+    public void setScore(int NewScore) {
+        this.score = score+NewScore;
+    }
+
+
+    @Override
+    public void setScore() {
+        return;
     }
 
     /**

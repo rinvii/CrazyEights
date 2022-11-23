@@ -87,6 +87,8 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
         sendInfo(new TimerInfo(timer));
     }
 
+    public abstract void setScore();
+
     /**
      * Returns the GUI's top object; used for flashing.
      *

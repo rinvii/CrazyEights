@@ -11,6 +11,7 @@ import edu.up.cs301.game.GameFramework.players.GameHumanPlayer;
 
 public class CESecondHumanPlayer extends GameHumanPlayer {
     private ArrayList<CECard> cardsInHand;
+    private int score;
 
     private static final String TAG = "CEHumanPlayer";
 
@@ -22,6 +23,17 @@ public class CESecondHumanPlayer extends GameHumanPlayer {
     public CESecondHumanPlayer(String name) {
         super(name);
         this.cardsInHand = new ArrayList<>();
+        score = 0;
+    }
+
+    @Override
+    public int getScore() {
+        return score;
+    }
+
+    @Override
+    public void setScore(){
+        this.score = score;
     }
 
     @Override
@@ -37,6 +49,15 @@ public class CESecondHumanPlayer extends GameHumanPlayer {
     @Override
     public void setAsGui(GameMainActivity activity) {
 
+    }
+
+    public void setScore(int NewScore) {
+        this.score = score+NewScore;
+    }
+
+    public void setCardsInHand(){
+        ArrayList<CECard> newCardsInHand=new ArrayList<CECard>();
+        this.cardsInHand=newCardsInHand;
     }
 
     @Override

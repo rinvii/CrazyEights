@@ -127,6 +127,11 @@ public class ProxyPlayer implements GamePlayer {
     public void removeCardInHand(CECard card) {
     }
 
+    @Override
+    public int getScore() {
+        return 0;
+    }
+
     /**
      * Set this game as a GUI. (Should never be called because the
      * 'supportsGui' method returns false.)
@@ -164,6 +169,16 @@ public class ProxyPlayer implements GamePlayer {
     //TESTING
     public GameMainActivity getActivity(){
         return null;
+    }
+
+    @Override
+    public void setScore(int i) {
+        return;
+    }
+
+    @Override
+    public void setCardsInHand() {
+        return;
     }
 }
 

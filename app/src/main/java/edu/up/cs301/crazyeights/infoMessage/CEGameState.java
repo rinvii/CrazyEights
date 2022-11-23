@@ -1,5 +1,7 @@
 package edu.up.cs301.crazyeights.infoMessage;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
@@ -76,13 +78,15 @@ public class CEGameState extends GameState implements Serializable {
         }
     }
 
+
     /**
-     * Makes new discard
+     * Populates drawPile with each drawable card
      */
     public void setDiscardPile() {
         discardPile = new ArrayList<CECard>();
         this.discardPile = discardPile;
     }
+
 
     /**
      * Create more instances of GameState
@@ -100,10 +104,21 @@ public class CEGameState extends GameState implements Serializable {
      */
     public void dealCards() {
         for (GamePlayer player : playerList) {
-            for (int j = 0; j < 5; j++) {
+            for (int j = 0; j < 3; j++) {
                 int index = new Random().nextInt(drawPile.size());
                 player.addCardInHand(new CECard(drawPile.get(index)));
 //                drawPile.remove(index);
+            }
+        }
+    }
+
+    public void tallyScores(){
+        for (GamePlayer player : playerList) {
+            for(int i=0;i<player.getCardsInHand().size();i++){
+                CECard card = player.getCardsInHand().get(i);
+                player.setScore(card.getScore());
+                Log.e("tallyScores: ", String.valueOf(player.getScore()));
+                player.setCardsInHand();
             }
         }
     }
@@ -202,6 +217,10 @@ public class CEGameState extends GameState implements Serializable {
         } else {
             playerToMove++;
         }
+    }
+
+    public void setScores(){
+
     }
 
     public int getPlayerToMove() {
