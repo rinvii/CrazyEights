@@ -99,8 +99,6 @@ public class CELocalGame extends LocalGame {
         return ((CEGameState) state).getPlayerToMove() == playerIdx;
     }
 
-
-
     /**
      * Check if the game is over. It is over, return a string that tells
      * who the winner(s), if any, are. If the game is not over, return null;
@@ -111,17 +109,15 @@ public class CELocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
-        /**
-         * for(int i=0;i<players.length();i++{
-         * if(player[i].cardsInHand.length()==0){
-         * return true;
-         * }
-         * else{
-         * return false;
-         * }
-         * }
-         */
-        return null;
+          for(int i=0;i<players.length;i++){
+          if(players[i].getCardsInHand().size()==0){
+          return players[i]+" wins!";
+          }
+          else{
+          return null;
+          }
+         }
+          return null;
     }
 
     /**
@@ -151,6 +147,7 @@ public class CELocalGame extends LocalGame {
             return true;
         } else if (action instanceof CEPlaceAction) {
             if (ceGameState.checkCardEligibility(((CEPlaceAction) action).getSelectedCard())){
+                
                 if (player instanceof CEDumbAI || player instanceof CESmartAI) {
                     try {
                         Thread.sleep(1000);
@@ -160,7 +157,13 @@ public class CELocalGame extends LocalGame {
                 }
                 ceGameState.placeCard(((CEPlaceAction) action).getSelectedCard());
                 player.removeCardInHand(((CEPlaceAction) action).getSelectedCard());
-                ceGameState.setNumPlayerTurn();
+                 if(checkIfGameOver()!=null){
+                    ceGameState.setDrawPile();
+                    ceGameState.dealCards();
+                    ceGameState.setDiscardPile();
+                    //ceGameState.
+                }
+                ceGameState.setNumPlayerTurn();     
                 return true;
             } else {
                 return false;
