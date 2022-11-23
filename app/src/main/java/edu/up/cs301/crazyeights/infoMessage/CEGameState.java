@@ -39,6 +39,7 @@ public class CEGameState extends GameState implements Serializable {
      * @param players List of players
      */
     public CEGameState(GamePlayer[] players){
+        playerToMove = -1;
         playerList = players;
         init();
     }
