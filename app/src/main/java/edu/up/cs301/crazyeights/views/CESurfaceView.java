@@ -320,12 +320,12 @@ public class CESurfaceView extends SurfaceView {
         rightFilled = false;
         leftFilled = false;
 
-        canvas.drawRect(canvasWidth/2, 0, canvasWidth/2, canvasHeight, strokePaint);
-        canvas.drawRect(0, canvasHeight / 2, canvasWidth, canvasHeight / 2
-                , strokePaint);
-        // playing region
-        canvas.drawRect(0, ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16, canvasWidth, canvasHeight - ADJUSTED_CARD_HEIGHT - canvasHeight / 24, strokePaint);
-        canvas.drawRect(0, (canvasHeight - ADJUSTED_CARD_HEIGHT - canvasHeight / 24 + (ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16)) / 2, canvasWidth, (canvasHeight - ADJUSTED_CARD_HEIGHT - canvasHeight / 24 + (ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16)) / 2, strokePaint);
+//        canvas.drawRect(canvasWidth/2, 0, canvasWidth/2, canvasHeight, strokePaint);
+//        canvas.drawRect(0, canvasHeight / 2, canvasWidth, canvasHeight / 2
+//                , strokePaint);
+//        // playing region
+//        canvas.drawRect(0, ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16, canvasWidth, canvasHeight - ADJUSTED_CARD_HEIGHT - canvasHeight / 24, strokePaint);
+//        canvas.drawRect(0, (canvasHeight - ADJUSTED_CARD_HEIGHT - canvasHeight / 24 + (ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16)) / 2, canvasWidth, (canvasHeight - ADJUSTED_CARD_HEIGHT - canvasHeight / 24 + (ADJUSTED_CARD_HEIGHT * 2 + canvasHeight / 16)) / 2, strokePaint);
     }
 
     public Rect getDrawPileBoundaries() {

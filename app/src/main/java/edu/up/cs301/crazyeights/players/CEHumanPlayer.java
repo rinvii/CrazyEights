@@ -4,7 +4,9 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.TextureView;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -98,8 +100,6 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         else {
             surfaceView.setState((CEGameState)info);
             surfaceView.invalidate();
-            surfaceView.invalidate();
-            surfaceView.invalidate();
             Logger.log(TAG, "receiving");
         }
     }
@@ -192,4 +192,14 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         this.cardsInHand.remove(card);
     }
 
+    public void displayScores(int playerID, int score) {
+        TextView player0Score = myActivity.findViewById(R.id.Player0Score);
+        TextView player0Name = myActivity.findViewById(R.id.Player0Name);
+        TextView player1Score = myActivity.findViewById(R.id.Player1Score);
+        TextView player1Name = myActivity.findViewById(R.id.Player1Name);
+        TextView player2Score = myActivity.findViewById(R.id.Player2Score);
+        TextView player2Name = myActivity.findViewById(R.id.Player2Name);
+        TextView player3Score = myActivity.findViewById(R.id.Player0Score);
+        TextView player3Name = myActivity.findViewById(R.id.Player0Name);
+    }
 }
