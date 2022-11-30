@@ -1,11 +1,13 @@
 package edu.up.cs301.crazyeights;
 
 import android.util.Log;
+import android.widget.TextView;
 
 import edu.up.cs301.crazyeights.ceActionMessage.CEDrawAction;
 import edu.up.cs301.crazyeights.ceActionMessage.CEPlaceAction;
 import edu.up.cs301.crazyeights.infoMessage.CEGameState;
 import edu.up.cs301.crazyeights.players.CEDumbAI;
+import edu.up.cs301.crazyeights.players.CEHumanPlayer;
 import edu.up.cs301.crazyeights.players.CESmartAI;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
@@ -112,13 +114,13 @@ public class CELocalGame extends LocalGame {
         String winner = null;
         int minPoints=100;
         int currPoints;
-          for(int i=0;i<players.length;i++) {
-              if (players[i].getScore()>100) {
-                  for(int j=0;j<players.length;j++) {
-                  currPoints=players[j].getScore();
-                  if(currPoints<minPoints){
-                      minPoints=currPoints;
-                      winner=playerNames[j];
+          for(int i = 0; i < players.length; i++) {
+              if (players[i].getScore() > 100) {
+                  for(int j = 0; j < players.length; j++) {
+                  currPoints = players[j].getScore();
+                  if(currPoints < minPoints){
+                      minPoints = currPoints;
+                      winner = playerNames[j];
                   }
                   }
                   Log.e("won the round: ", winner);
@@ -138,12 +140,15 @@ public class CELocalGame extends LocalGame {
      */
     @Override
     protected String checkIfRoundOver() {
-        for(int i=0;i<players.length;i++) {
+        for(int i = 0; i < players.length; i++) {
             if (players[i].getCardsInHand().size() == 0) {
-                if(checkIfGameOver()!=null){
+                Log.e("won the round: ", String.valueOf(playerNames[i]));
+                if (players[i] instanceof CEHumanPlayer) {
+                    ((CEHumanPlayer) players[i]).displayScores(ceGameState.tallyScores());
+                }
+                if (checkIfGameOver() != null) {
                     return checkIfGameOver();
                 }
-                Log.e("won the round: ", String.valueOf(playerNames[i]));
                 return playerNames[i] + " wins the round! ";
             }
         }
@@ -187,8 +192,7 @@ public class CELocalGame extends LocalGame {
                 }
                 ceGameState.placeCard(((CEPlaceAction) action).getSelectedCard());
                 player.removeCardInHand(((CEPlaceAction) action).getSelectedCard());
-                if(checkIfRoundOver()!=null){
-                    ceGameState.tallyScores();
+                if(checkIfRoundOver() != null){
                     ceGameState.setDrawPile();
                     ceGameState.dealCards();
                     ceGameState.setDiscardPile();

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import edu.up.cs301.crazyeights.CECard;
@@ -112,17 +113,19 @@ public class CEGameState extends GameState implements Serializable {
         }
     }
 
-    public void tallyScores(){
-        int count=0;
-        for (GamePlayer player : playerList) {
-            for(int i=0;i<player.getCardsInHand().size();i++) {
-                CECard card = player.getCardsInHand().get(i);
-                player.setScore(card.getScore());
+    public HashMap<Integer, Integer> tallyScores() {
+        HashMap<Integer, Integer> playerInfo = new HashMap<>();
+        for (int i = 0; i < playerList.length; i++) {
+            for(int j = 0; j < playerList[i].getCardsInHand().size(); j++) {
+                CECard card = playerList[i].getCardsInHand().get(j);
+                playerList[i].setScore(card.getScore());
             }
-            count++;
-            Log.e("tallyScores: ", count +":"+ player.getScore());
-            }
+            Log.e("tallyScores: ", i+ ":" + playerList[i].getScore());
+            playerInfo.put(i, playerList[i].getScore());
+            playerList[i].setCardsInHand();
         }
+        return playerInfo;
+    }
 
     /**
      * Prints out GameState information in the form of a string
@@ -220,7 +223,7 @@ public class CEGameState extends GameState implements Serializable {
         }
     }
 
-    public void setScores(){
+    public void Scores(){
 
     }
 

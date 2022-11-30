@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import edu.up.cs301.R;
 import edu.up.cs301.crazyeights.CECard;
@@ -46,7 +47,8 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         super(name);
         this.layoutId = layoutId;
         this.cardsInHand = new ArrayList<>();
-        score=0;
+        score = 0;
+
     }
 
     public void setCardsInHand(){
@@ -192,14 +194,18 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         this.cardsInHand.remove(card);
     }
 
-    public void displayScores(int playerID, int score) {
+    public void displayScores(HashMap<Integer, Integer> hm) {
         TextView player0Score = myActivity.findViewById(R.id.Player0Score);
+        player0Score.setText(hm.get(0) + "");
         TextView player0Name = myActivity.findViewById(R.id.Player0Name);
         TextView player1Score = myActivity.findViewById(R.id.Player1Score);
+        player1Score.setText(hm.get(1) + "");
         TextView player1Name = myActivity.findViewById(R.id.Player1Name);
         TextView player2Score = myActivity.findViewById(R.id.Player2Score);
+        player2Score.setText(hm.get(2) + "");
         TextView player2Name = myActivity.findViewById(R.id.Player2Name);
-        TextView player3Score = myActivity.findViewById(R.id.Player0Score);
-        TextView player3Name = myActivity.findViewById(R.id.Player0Name);
+        TextView player3Score = myActivity.findViewById(R.id.Player3Score);
+        player3Score.setText(hm.get(3) + "");
+        TextView player3Name = myActivity.findViewById(R.id.Player3Name);
     }
 }
