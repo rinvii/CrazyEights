@@ -371,6 +371,8 @@ public abstract class LocalGame implements Game, Tickable {
         }
     }
 
+    protected abstract String checkIfRoundOver();
+
     /**
      * Makes a move on behalf of a player.
      *
