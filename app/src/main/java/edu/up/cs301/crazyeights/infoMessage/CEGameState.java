@@ -121,7 +121,6 @@ public class CEGameState extends GameState implements Serializable {
             }
             count++;
             Log.e("tallyScores: ", count +":"+ player.getScore());
-            player.setCardsInHand();
             }
         }
 
