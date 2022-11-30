@@ -2,13 +2,11 @@ package edu.up.cs301.crazyeights;
 
 import android.util.Log;
 
-import edu.up.cs301.R;
 import edu.up.cs301.crazyeights.ceActionMessage.CEDrawAction;
 import edu.up.cs301.crazyeights.ceActionMessage.CEPlaceAction;
 import edu.up.cs301.crazyeights.infoMessage.CEGameState;
 import edu.up.cs301.crazyeights.players.CEDumbAI;
 import edu.up.cs301.crazyeights.players.CESmartAI;
-import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 import edu.up.cs301.game.GameFramework.players.GamePlayer;
@@ -111,12 +109,45 @@ public class CELocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
+        String winner = null;
+        int minPoints=100;
+        int currPoints;
           for(int i=0;i<players.length;i++) {
-              if (players[i].getCardsInHand().size() == 0) {
-                  return players[i] + " wins!";
+              if (players[i].getScore()>100) {
+                  for(int j=0;j<players.length;j++) {
+                  currPoints=players[j].getScore();
+                  if(currPoints<minPoints){
+                      minPoints=currPoints;
+                      winner=playerNames[j];
+                  }
+                  }
+                  Log.e("won the round: ", winner);
+                  return winner + " wins the game! ";
               }
           }
               return null;
+    }
+
+    /**
+     * Check if the round is over. It is over, return a string that tells
+     * who the winner(s), if any, are. If the round is not over, return null;
+     *
+     * @return
+     * 		a message that tells who has won the game, or null if the
+     * 		game is not over
+     */
+    @Override
+    protected String checkIfRoundOver() {
+        for(int i=0;i<players.length;i++) {
+            if (players[i].getCardsInHand().size() == 0) {
+                if(checkIfGameOver()!=null){
+                    return checkIfGameOver();
+                }
+                Log.e("won the round: ", String.valueOf(playerNames[i]));
+                return playerNames[i] + " wins the round! ";
+            }
+        }
+        return null;
     }
 
     /**
@@ -156,7 +187,7 @@ public class CELocalGame extends LocalGame {
                 }
                 ceGameState.placeCard(((CEPlaceAction) action).getSelectedCard());
                 player.removeCardInHand(((CEPlaceAction) action).getSelectedCard());
-                if(checkIfGameOver()!=null){
+                if(checkIfRoundOver()!=null){
                     ceGameState.tallyScores();
                     ceGameState.setDrawPile();
                     ceGameState.dealCards();

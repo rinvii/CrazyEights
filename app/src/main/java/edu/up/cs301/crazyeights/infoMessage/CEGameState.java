@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.up.cs301.crazyeights.CECard;
-import edu.up.cs301.crazyeights.players.CEHumanPlayer;
 import edu.up.cs301.crazyeights.views.CESurfaceView;
 import edu.up.cs301.game.GameFramework.infoMessage.GameState;
 import edu.up.cs301.game.GameFramework.players.GamePlayer;
@@ -105,7 +104,7 @@ public class CEGameState extends GameState implements Serializable {
      */
     public void dealCards() {
         for (GamePlayer player : playerList) {
-            for (int j = 0; j < 5; j++) {
+            for (int j = 0; j < 2; j++) {
                 int index = new Random().nextInt(drawPile.size());
                 player.addCardInHand(new CECard(drawPile.get(index)));
 //                drawPile.remove(index);
@@ -114,18 +113,15 @@ public class CEGameState extends GameState implements Serializable {
     }
 
     public void tallyScores(){
+        int count=0;
         for (GamePlayer player : playerList) {
-            if (player instanceof CEHumanPlayer) {
-                for (int i = 0; i < player.getCardsInHand().size(); i++) {
-                    CECard card = player.getCardsInHand().get(i);
-                    player.setScore(card.getScore());
-                }
-                Log.e("tallyScores: ", String.valueOf(player.getScore()));
-                //player.setCardsInHand();
-
-
+            for(int i=0;i<player.getCardsInHand().size();i++) {
+                CECard card = player.getCardsInHand().get(i);
+                player.setScore(card.getScore());
             }
-        }
+            count++;
+            Log.e("tallyScores: ", count +":"+ player.getScore());
+            }
         }
 
     /**
@@ -222,6 +218,10 @@ public class CEGameState extends GameState implements Serializable {
         } else {
             playerToMove++;
         }
+    }
+
+    public void setScores(){
+
     }
 
     public int getPlayerToMove() {

@@ -13,6 +13,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -65,6 +66,7 @@ public class CESurfaceView extends SurfaceView {
      */
     public CESurfaceView(Context context) {
         super(context);
+
         init();
     }
 
@@ -133,6 +135,8 @@ public class CESurfaceView extends SurfaceView {
         strokePaint.setStyle(Paint.Style.STROKE);
         strokePaint.setColor(Color.GREEN);
         strokePaint.setStrokeWidth(1);
+
+
 
         Bitmap bmpBackOfCard = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
 

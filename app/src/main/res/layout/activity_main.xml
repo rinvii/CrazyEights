@@ -10,7 +10,10 @@
         android:id="@+id/ourView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF" />
+        android:background="#FFFFFF"
+        tools:layout_editor_absoluteX="-191dp"
+        tools:layout_editor_absoluteY="26dp" />
+
 
     <LinearLayout
         android:id="@+id/PlayerIcons"
