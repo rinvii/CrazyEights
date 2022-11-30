@@ -104,7 +104,7 @@ public class CEGameState extends GameState implements Serializable {
      */
     public void dealCards() {
         for (GamePlayer player : playerList) {
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < 2; j++) {
                 int index = new Random().nextInt(drawPile.size());
                 player.addCardInHand(new CECard(drawPile.get(index)));
 //                drawPile.remove(index);
@@ -113,13 +113,15 @@ public class CEGameState extends GameState implements Serializable {
     }
 
     public void tallyScores(){
+        int count=0;
         for (GamePlayer player : playerList) {
             for(int i=0;i<player.getCardsInHand().size();i++) {
                 CECard card = player.getCardsInHand().get(i);
                 player.setScore(card.getScore());
             }
-                Log.e("tallyScores: ", String.valueOf(player.getScore()));
-                player.setCardsInHand();
+            count++;
+            Log.e("tallyScores: ", count +":"+ player.getScore());
+            player.setCardsInHand();
             }
         }
 
