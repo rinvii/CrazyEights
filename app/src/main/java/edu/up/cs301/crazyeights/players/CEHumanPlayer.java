@@ -208,4 +208,9 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         player3Score.setText(hm.get(3) + "");
         TextView player3Name = myActivity.findViewById(R.id.Player3Name);
     }
+
+    public void displayWinner(HashMap<Integer, Integer> hm) {
+        TextView winner = myActivity.findViewById(R.id.Player0Score);
+        winner.setText(hm.checkIfRoundOver());
+    }
 }
