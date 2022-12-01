@@ -113,10 +113,10 @@ public class CELocalGame extends LocalGame {
     @Override
     protected String checkIfGameOver() {
         String winner = null;
-        int minPoints = 20;
+        int minPoints = 100;
         int currPoints;
           for(int i = 0; i < players.length; i++) {
-              if (players[i].getScore() > 20) {
+              if (players[i].getScore() > 100) {
                   for(int j = 0; j < players.length; j++) {
                   currPoints = players[j].getScore();
                   if(currPoints < minPoints){
