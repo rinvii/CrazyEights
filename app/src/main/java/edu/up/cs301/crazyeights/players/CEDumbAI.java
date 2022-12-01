@@ -50,7 +50,7 @@ public class CEDumbAI extends GameComputerPlayer {
             if (new Random().nextInt(4) == 0) {
                 Log.i("Player Action", "Dumb AI" + this.playerNum + " drawing");
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
 //            e.printStackTrace();
                 }
@@ -67,7 +67,7 @@ public class CEDumbAI extends GameComputerPlayer {
                 }
                 Log.i("Player Action", "Dumb AI" + this.playerNum + " drawing");
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
 //            e.printStackTrace();
                 }

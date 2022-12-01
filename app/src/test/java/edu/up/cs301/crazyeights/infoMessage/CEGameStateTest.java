@@ -15,7 +15,8 @@ public class CEGameStateTest {
 
 
     /** Tests if player turn is random at the beginning of the game
-     * This was written by: */
+     * This was written by: Noelle Lei Sam & Ronnie Delos Santos
+     * */
     @Test
     public void testInitialPlayerTurnRandomness() {
         GamePlayer[] players = new GamePlayer[4];
@@ -25,7 +26,8 @@ public class CEGameStateTest {
     }
 
     /** Tests setDrawPile(): if all 52 cards are added to the drawPile
-     * This was written by: */
+     * This was written by: Noelle Lei Sam & Ronnie Delos Santos
+     * */
     @Test
     public void testIfDrawPileIsDealt() {
         GamePlayer[] players = new GamePlayer[4];
@@ -34,7 +36,8 @@ public class CEGameStateTest {
     }
 
     /** Tests the deal() function: if 5 cards are dealt per player from the drawPile
-     * This was written by: */
+     * This was written by: Noelle Lei Sam & Ronnie Delos Santos
+     * */
     @Test
     public void testIfCardsAreDealt() {
         GamePlayer[] players = new GamePlayer[4];
@@ -50,7 +53,8 @@ public class CEGameStateTest {
     }
 
     /** Tests placeCard(): if a card is placed into the discardPile
-     * This was written by: */
+     * This was written by: Noelle Lei Sam & Ronnie Delos Santos
+     * */
     @Test
     public void testIfCardIsPlaced() {
         GamePlayer[] players = new GamePlayer[4];
@@ -61,17 +65,21 @@ public class CEGameStateTest {
     }
 
     /** testIfRandomCardIsSelected()
-     *  This was writted by: Alex Melemai  */
+     *  This was writted by: Alex Melemai
+     *  */
     @Test
     public void testIfRandomCardIsSelected() {
         GamePlayer[] players = new GamePlayer[4];
         CEGameState gamestate = new CEGameState(players);
         CECard card1 = gamestate.getRandomCard();
         assertNotEquals(null, card1);
+        CECard card2 = gamestate.getRandomCard();
+        assertNotEquals(card1, card2);
     }
 
     /** Tests the functionality of checkCardEligibility()
-     *  This was written by: */
+     *  This was written by: Noelle Lei Sam & Ronnie Delos Santos
+     *  */
     @Test
     public void testIfCardIsEligible() {
         GamePlayer[] players = new GamePlayer[4];
@@ -88,7 +96,8 @@ public class CEGameStateTest {
     }
 
     /** Tests drawCard() function:
-     * This was written by: */
+     * This was written by: Noelle Lei Sam & Ronnie Delos Santos
+     * */
     @Test
     public void testIfCardIsDrawn() {
         GamePlayer[] players = new GamePlayer[4];
@@ -101,7 +110,8 @@ public class CEGameStateTest {
     }
 
     /** Tests setPlayerTurn(): playerTurn moves counterclockwise
-     * This was written by: */
+     * This was written by: Noelle Lei Sam & Ronnie Delos Santos
+     * */
     @Test
     public void testIfPlayerTurnIsIncremented() {
         GamePlayer[] players = new GamePlayer[4];
@@ -112,7 +122,8 @@ public class CEGameStateTest {
     }
 
     /** Tests getPlayerToMove()
-     * This was written by: */
+     * This was written by: Emily Do
+     * */
     @Test
     public void testIfPlayerToMoveIsCorrect() {
         GamePlayer[] players = new GamePlayer[4];

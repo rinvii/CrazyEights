@@ -113,7 +113,7 @@ public class CELocalGame extends LocalGame {
     @Override
     protected String checkIfGameOver() {
         String winner = null;
-        int minPoints=20;
+        int minPoints = 20;
         int currPoints;
           for(int i = 0; i < players.length; i++) {
               if (players[i].getScore() > 20) {
@@ -144,6 +144,11 @@ public class CELocalGame extends LocalGame {
         for(int i = 0; i < players.length; i++) {
             if (players[i].getCardsInHand().size() == 0) {
                 Log.e("won the round: ", String.valueOf(playerNames[i]));
+                for (GamePlayer player : players) {
+                    if (player instanceof CEHumanPlayer) {
+                        ((CEHumanPlayer) player).displayScores(ceGameState.tallyScores());
+                    }
+                }
                 if (checkIfGameOver() != null) {
                     return checkIfGameOver();
                 }
@@ -180,7 +185,6 @@ public class CELocalGame extends LocalGame {
             return true;
         } else if (action instanceof CEPlaceAction) {
             if (ceGameState.checkCardEligibility(((CEPlaceAction) action).getSelectedCard())){
-
                 if (player instanceof CEDumbAI || player instanceof CESmartAI) {
                     try {
                         Thread.sleep(1000);
@@ -191,13 +195,9 @@ public class CELocalGame extends LocalGame {
                 ceGameState.placeCard(((CEPlaceAction) action).getSelectedCard());
                 player.removeCardInHand(((CEPlaceAction) action).getSelectedCard());
                 if(checkIfRoundOver() != null){
-                    HashMap<Integer, Integer> scores = ceGameState.tallyScores();
-                    if (player instanceof CEHumanPlayer) {
-                        ((CEHumanPlayer) player).displayScores(scores);
-                    }
                     ceGameState.setDrawPile();
-                    ceGameState.dealCards();
                     ceGameState.setDiscardPile();
+                    ceGameState.dealCards();
                 }
                 ceGameState.setNumPlayerTurn();
                 return true;
