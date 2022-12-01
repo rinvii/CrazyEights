@@ -3,6 +3,8 @@ package edu.up.cs301.crazyeights;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 import edu.up.cs301.crazyeights.ceActionMessage.CEDrawAction;
 import edu.up.cs301.crazyeights.ceActionMessage.CEPlaceAction;
 import edu.up.cs301.crazyeights.infoMessage.CEGameState;
@@ -63,7 +65,6 @@ public class CELocalGame extends LocalGame {
         // deals cards to every player
         ceGameState.setInitialPlayerToMoveTurn();
         ceGameState.dealCards();
-        ceGameState.placeCard(ceGameState.getRandomCard());
 //        for (int i = 0; i < 10; i++) {
 //            ceGameState.placeCard(ceGameState.getRandomCard());
 //        }
@@ -112,10 +113,10 @@ public class CELocalGame extends LocalGame {
     @Override
     protected String checkIfGameOver() {
         String winner = null;
-        int minPoints=100;
+        int minPoints=20;
         int currPoints;
           for(int i = 0; i < players.length; i++) {
-              if (players[i].getScore() > 100) {
+              if (players[i].getScore() > 20) {
                   for(int j = 0; j < players.length; j++) {
                   currPoints = players[j].getScore();
                   if(currPoints < minPoints){
@@ -143,9 +144,6 @@ public class CELocalGame extends LocalGame {
         for(int i = 0; i < players.length; i++) {
             if (players[i].getCardsInHand().size() == 0) {
                 Log.e("won the round: ", String.valueOf(playerNames[i]));
-                if (players[i] instanceof CEHumanPlayer) {
-                    ((CEHumanPlayer) players[i]).displayScores(ceGameState.tallyScores());
-                }
                 if (checkIfGameOver() != null) {
                     return checkIfGameOver();
                 }
@@ -193,6 +191,10 @@ public class CELocalGame extends LocalGame {
                 ceGameState.placeCard(((CEPlaceAction) action).getSelectedCard());
                 player.removeCardInHand(((CEPlaceAction) action).getSelectedCard());
                 if(checkIfRoundOver() != null){
+                    HashMap<Integer, Integer> scores = ceGameState.tallyScores();
+                    if (player instanceof CEHumanPlayer) {
+                        ((CEHumanPlayer) player).displayScores(scores);
+                    }
                     ceGameState.setDrawPile();
                     ceGameState.dealCards();
                     ceGameState.setDiscardPile();

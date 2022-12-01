@@ -111,6 +111,7 @@ public class CEGameState extends GameState implements Serializable {
 //                drawPile.remove(index);
             }
         }
+        placeCard(getRandomCard());
     }
 
     public HashMap<Integer, Integer> tallyScores() {
