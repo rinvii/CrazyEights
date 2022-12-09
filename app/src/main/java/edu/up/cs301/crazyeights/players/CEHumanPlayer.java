@@ -132,7 +132,6 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         // x and y position of the touch
         float x = motionEvent.getX();
         float y = motionEvent.getY();
-        Log.e("action", motionEvent.getAction() + "");
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 // player clicks on their hand

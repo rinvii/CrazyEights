@@ -1,8 +1,11 @@
 package edu.up.cs301.crazyeights.players;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import edu.up.cs301.crazyeights.CECard;
+import edu.up.cs301.crazyeights.ceActionMessage.CEDrawAction;
 import edu.up.cs301.crazyeights.ceActionMessage.CEPlaceAction;
 import edu.up.cs301.crazyeights.infoMessage.CEGameState;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
@@ -49,23 +52,35 @@ public class CESmartAI extends GameComputerPlayer {
             return;
         }
         else {
+            CECard maxCard = null;
+            int minMaxCard = 1;
+            String str = "";
+
+            for (int j = 0; j < this.cardsInHand.size(); j++) {
+                String faceName = this.cardsInHand.get(j).face.name();
+                String suitName = this.cardsInHand.get(j).suit.name();
+                str += faceName + " " + suitName + " | ";
+            }
+            Log.e("Smart AI" + this.playerNum, str);
+
             for (int i = 0; i < this.cardsInHand.size(); i++) {
                 if (ceGameState.checkCardEligibility(this.cardsInHand.get(i))) {
-                    int minMaxCard = 1;
                     CECard currCard = this.cardsInHand.get(i);
-                    CECard maxCard;
                     int currVal = currCard.getScore();
                     if (currVal > minMaxCard) {
-                        currVal = minMaxCard;
+                        minMaxCard = currVal;
                         maxCard = this.cardsInHand.get(i);
-                    }
-                    else {
+                    } else {
                         maxCard = this.cardsInHand.get(i);
-                        game.sendAction( new CEPlaceAction(this, maxCard));
+                        break;
                     }
                 }
-                game.sendAction(new CEPlaceAction(this, maxCard));
             }
+            if (maxCard == null) {
+                game.sendAction(new CEDrawAction(this));
+                return;
+            }
+            game.sendAction(new CEPlaceAction(this, maxCard));
         }
     }
 
