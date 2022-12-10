@@ -345,11 +345,10 @@ public class CESurfaceView extends SurfaceView {
         Bitmap player2Arrow = BitmapFactory.decodeResource(getResources(), R.drawable.p2_turnarrow);
         Bitmap player3Arrow = BitmapFactory.decodeResource(getResources(), R.drawable.p3_turnarrow);
 
-
+        //arrow dimensions
         int arrowHeight = 100;
         int arrowWidth = 100;
         int top = canvas.getHeight() / 2;
-
 
         //draw arrows to indicate player turn
         if(state.getPlayerToMove() == 0){
