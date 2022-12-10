@@ -14,12 +14,26 @@ import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
 import edu.up.cs301.game.GameFramework.infoMessage.NotYourTurnInfo;
 import edu.up.cs301.game.GameFramework.players.GameComputerPlayer;
 
+/**
+ * This class represents the DumbAI player. The AI for
+ * this class is not very sophisticated. The decision-making process
+ * for the AI is iterating through the player's hand starting from index 0
+ * and finding the first eligible card to be placed into the discardPile.
+ * Furthermore, it has a 25% of drawing.
+ *
+ * @author Ronnie Delos Santos
+ * @author Emily Do
+ * @author Noelle Lei Sam
+ * @author Alex Melamai
+ * @version November 2022
+ */
 public class CEDumbAI extends GameComputerPlayer {
     private ArrayList<CECard> cardsInHand;
     private int score;
 
     /**
-     * constructor
+     * Generic constructor. Assigns the instance variable cardsInHand
+     * and score a value.
      *
      * @param name the player's name (e.g., "John")
      */
@@ -29,14 +43,28 @@ public class CEDumbAI extends GameComputerPlayer {
         this.score = 0;
     }
 
+    /**
+     * Getter for instance variable score.
+     *
+     * @return the score of this player
+     */
     public int getScore() {
         return score;
     }
 
-    public void setScore(int NewScore) {
-        this.score = score+NewScore;
+    /**
+     * Setter for instance variable score.
+     * @param newScore the score to assign
+     */
+    public void setScore(int newScore) {
+        this.score = score + newScore;
     }
 
+    /**
+     * This controls what decision the AI is going to make
+     * and sends and action to the game.
+     * @param info GameInfo object sent from the game
+     */
     @Override
     protected void receiveInfo(GameInfo info) {
         if (info instanceof NotYourTurnInfo || info instanceof IllegalMoveInfo) return;
@@ -46,7 +74,7 @@ public class CEDumbAI extends GameComputerPlayer {
         if (ceGameState.getPlayerToMove() != this.playerNum || this.cardsInHand.size() == 0) {
             return;
         } else {
-            // 1/8 chance of AI drawing
+            // 1/4 chance of AI drawing
             if (new Random().nextInt(4) == 0) {
                 Log.i("Player Action", "Dumb AI" + this.playerNum + " drawing");
                 try {
@@ -61,7 +89,6 @@ public class CEDumbAI extends GameComputerPlayer {
                         CECard randomCard = this.cardsInHand.get(i);
                         Log.i("Player Action", "DUMB AI " + this.playerNum + " playing " + randomCard.face.name() + " " + randomCard.suit);
                         game.sendAction(new CEPlaceAction(this, randomCard));
-                        //game.sendAction(new CEDrawAction(this));
                         return;
                     }
                 }
@@ -76,20 +103,31 @@ public class CEDumbAI extends GameComputerPlayer {
         }
     }
 
+    /**
+     * Getter for this player's hand.
+     * @return the hand of this player
+     */
     @Override
     public ArrayList<CECard> getCardsInHand() {
         return this.cardsInHand;
     }
 
+    /**
+     * Adds a card to this player's hand.
+     * @param card the card to be added
+     * @return the card that was added
+     */
     @Override
     public CECard addCardInHand(CECard card) {
         this.cardsInHand.add(card);
         return card;
     }
 
+    /**
+     * Clears the player's hand.
+     */
     public void setCardsInHand(){
-        ArrayList<CECard> newCardsInHand=new ArrayList<CECard>();
-        this.cardsInHand=newCardsInHand;
+        this.cardsInHand.clear();
     }
 
     /**

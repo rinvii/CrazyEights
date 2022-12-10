@@ -5,6 +5,9 @@ import android.graphics.Rect;
 
 import edu.up.cs301.R;
 
+/**
+ *
+ */
 public class CECard {
     public FACE face;
     public SUIT suit;

@@ -105,7 +105,7 @@ public class CEGameState extends GameState implements Serializable {
      */
     public void dealCards() {
         for (GamePlayer player : playerList) {
-            for (int j = 0; j < 5; j++) {
+            for (int j = 0; j < 1; j++) {
                 int index = new Random().nextInt(drawPile.size());
                 player.addCardInHand(new CECard(drawPile.get(index)));
 //                drawPile.remove(index);
@@ -114,6 +114,10 @@ public class CEGameState extends GameState implements Serializable {
         placeCard(getRandomCard());
     }
 
+    /**
+     * Calculate the scores in each player's hand.
+     * @return a HashMap which stores each player's score
+     */
     public HashMap<Integer, Integer> tallyScores() {
         HashMap<Integer, Integer> playerInfo = new HashMap<>();
         for (int i = 0; i < playerList.length; i++) {
@@ -224,10 +228,10 @@ public class CEGameState extends GameState implements Serializable {
         }
     }
 
-    public void Scores(){
-
-    }
-
+    /**
+     * Getter for the player to move
+     * @return number of current player to move
+     */
     public int getPlayerToMove() {
         return this.playerToMove;
     }

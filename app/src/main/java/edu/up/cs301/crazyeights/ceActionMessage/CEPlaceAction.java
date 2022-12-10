@@ -24,6 +24,10 @@ public class CEPlaceAction extends GameAction {
         this.selectedCard = selectedCard;
     }
 
+    /**
+     *
+     * @return the card which was selected to place
+     */
     public CECard getSelectedCard() {
         return this.selectedCard;
     }
