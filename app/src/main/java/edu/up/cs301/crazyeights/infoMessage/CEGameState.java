@@ -132,6 +132,13 @@ public class CEGameState extends GameState implements Serializable {
         return playerInfo;
     }
 
+    public HashMap<Integer, String> getPlayerNames() {
+        HashMap<Integer, String> playerNames = new HashMap<>(); for (int i = 0; i < playerList.length; i++) {
+            playerNames.put(i, playerList[i].getName());
+        }
+        return playerNames;
+    }
+
     /**
      * Prints out GameState information in the form of a string
      * @return: All information of Players, draw pile, and discard pile

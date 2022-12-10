@@ -130,6 +130,11 @@ public class CEDumbAI extends GameComputerPlayer {
         this.cardsInHand.clear();
     }
 
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
     /**
      * Removes card in the hand.
      * @param card The card to be removed

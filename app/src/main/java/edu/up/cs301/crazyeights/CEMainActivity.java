@@ -8,7 +8,6 @@ import edu.up.cs301.R;
 import edu.up.cs301.crazyeights.infoMessage.CEGameState;
 import edu.up.cs301.crazyeights.players.CEDumbAI;
 import edu.up.cs301.crazyeights.players.CEHumanPlayer;
-import edu.up.cs301.crazyeights.players.CESecondHumanPlayer;
 import edu.up.cs301.crazyeights.players.CESmartAI;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.LocalGame;
@@ -57,14 +56,6 @@ public class CEMainActivity extends GameMainActivity {
             @Override
             public GamePlayer createPlayer(String name) {
                 return new CEHumanPlayer(name, R.layout.activity_main);
-            }
-        });
-
-        // Second human player for network play
-        playerTypes.add(new GamePlayerType("Second Human Player") {
-            @Override
-            public GamePlayer createPlayer(String name) {
-                return new CESecondHumanPlayer(name);
             }
         });
 

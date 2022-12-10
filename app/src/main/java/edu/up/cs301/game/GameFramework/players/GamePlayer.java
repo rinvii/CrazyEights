@@ -48,4 +48,6 @@ public interface GamePlayer {
     void setScore(int i);
 
     void setCardsInHand();
+
+    String getName();
 }// interface GamePlayer

@@ -180,5 +180,10 @@ public class ProxyPlayer implements GamePlayer {
     public void setCardsInHand() {
         return;
     }
+
+    @Override
+    public String getName() {
+        return null;
+    }
 }
 

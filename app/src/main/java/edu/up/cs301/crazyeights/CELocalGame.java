@@ -65,9 +65,11 @@ public class CELocalGame extends LocalGame {
         // deals cards to every player
         ceGameState.setInitialPlayerToMoveTurn();
         ceGameState.dealCards();
-//        for (int i = 0; i < 10; i++) {
-//            ceGameState.placeCard(ceGameState.getRandomCard());
-//        }
+        for (GamePlayer player : players) {
+            if (player instanceof CEHumanPlayer) {
+                ((CEHumanPlayer) player).displayPlayerNames(ceGameState.getPlayerNames());
+            }
+        }
         // tell the game that we are ready to display the GUI
         sendAllUpdatedState();
     }

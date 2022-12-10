@@ -56,6 +56,11 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         this.cardsInHand=newCardsInHand;
     }
 
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
     public int getScore() {
         return score;
     }
@@ -199,16 +204,28 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
             public void run() {
                 TextView player0Score = myActivity.findViewById(R.id.Player0Score);
                 player0Score.setText(hm.get(0) + "");
-                TextView player0Name = myActivity.findViewById(R.id.Player0Name);
                 TextView player1Score = myActivity.findViewById(R.id.Player1Score);
                 player1Score.setText(hm.get(1) + "");
-                TextView player1Name = myActivity.findViewById(R.id.Player1Name);
                 TextView player2Score = myActivity.findViewById(R.id.Player2Score);
                 player2Score.setText(hm.get(2) + "");
-                TextView player2Name = myActivity.findViewById(R.id.Player2Name);
                 TextView player3Score = myActivity.findViewById(R.id.Player3Score);
                 player3Score.setText(hm.get(3) + "");
+            }
+        });
+    }
+
+    public void displayPlayerNames(HashMap<Integer, String> hm) {
+        myActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView player0Name = myActivity.findViewById(R.id.Player0Name);
+                player0Name.setText(hm.get(0) + "");
+                TextView player1Name = myActivity.findViewById(R.id.Player1Name);
+                player1Name.setText(hm.get(1) + "");
+                TextView player2Name = myActivity.findViewById(R.id.Player2Name);
+                player2Name.setText(hm.get(2) + "");
                 TextView player3Name = myActivity.findViewById(R.id.Player3Name);
+                player3Name.setText(hm.get(3) + "");
             }
         });
     }

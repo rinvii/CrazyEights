@@ -26,7 +26,6 @@ import edu.up.cs301.crazyeights.CEMainActivity;
 import edu.up.cs301.crazyeights.infoMessage.CEGameState;
 import edu.up.cs301.crazyeights.players.CEDumbAI;
 import edu.up.cs301.crazyeights.players.CEHumanPlayer;
-import edu.up.cs301.crazyeights.players.CESecondHumanPlayer;
 import edu.up.cs301.crazyeights.players.CESmartAI;
 import edu.up.cs301.game.GameFramework.players.GamePlayer;
 
@@ -149,7 +148,7 @@ public class CESurfaceView extends SurfaceView {
         for (GamePlayer player : state.playerList) {
 
             // check if iterable is instance of CEHumanPlayer or CESecondHumanPlayer
-            if (player instanceof CEHumanPlayer || player instanceof CESecondHumanPlayer) {
+            if (player instanceof CEHumanPlayer) {
 
                 // iterate through the player's hand
                 for (int i = 0; i < player.getCardsInHand().size(); i++) {

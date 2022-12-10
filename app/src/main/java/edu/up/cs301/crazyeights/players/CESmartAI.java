@@ -43,6 +43,11 @@ public class CESmartAI extends GameComputerPlayer {
     }
 
     @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
     protected void receiveInfo(GameInfo info) {
         if (info instanceof NotYourTurnInfo || info instanceof IllegalMoveInfo) return;
 
