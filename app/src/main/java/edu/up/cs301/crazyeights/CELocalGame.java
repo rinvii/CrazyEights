@@ -102,8 +102,6 @@ public class CELocalGame extends LocalGame {
         return ((CEGameState) state).getPlayerToMove() == playerIdx;
     }
 
-
-
     /**
      * Check if the game is over. It is over, return a string that tells
      * who the winner(s), if any, are. If the game is not over, return null;

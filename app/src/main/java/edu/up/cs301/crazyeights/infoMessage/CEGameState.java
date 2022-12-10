@@ -88,7 +88,6 @@ public class CEGameState extends GameState implements Serializable {
         this.discardPile = discardPile;
     }
 
-
     /**
      * Create more instances of GameState
      * @return
@@ -132,46 +131,17 @@ public class CEGameState extends GameState implements Serializable {
         return playerInfo;
     }
 
+    /**
+     * Gets a list of player names
+     * @return: updated list of player names.
+     */
     public HashMap<Integer, String> getPlayerNames() {
-        HashMap<Integer, String> playerNames = new HashMap<>(); for (int i = 0; i < playerList.length; i++) {
+        HashMap<Integer, String> playerNames = new HashMap<>();
+        for (int i = 0; i < playerList.length; i++) {
             playerNames.put(i, playerList[i].getName());
         }
         return playerNames;
     }
-
-    /**
-     * Prints out GameState information in the form of a string
-     * @return: All information of Players, draw pile, and discard pile
-     *          for the instance of the game
-     */
-//    @Override
-//    public String toString()
-//    {
-//        String playersHand = "";
-//
-//        for (GamePlayer al: playerList)
-//        {
-//            playersHand += "player " + al.playerID + ": ";
-//            for (Card card : al.cards_in_Hand)
-//            {
-//                playersHand += card.toString() + " ";
-//            }
-//            playersHand += "\n\n";
-//        }
-//
-//        String drawPileText = "Draw Pile Size: " + drawPile.size() ;
-//        drawPileText += "\n\n";
-//
-//        String discardPileText = "Discard Pile: ";
-//
-//        for (Card card : discard) {
-//            discardPileText += card.toString() + " ";
-//        }
-//        discardPileText += "\n\n";
-//        String returnText = drawPileText + playersHand + discardPileText + "\nPlayer Turn: " + numPlayerTurn;
-//
-//        return returnText;
-//    }
 
     /**
      * Card method which adds to the discardPile
@@ -187,6 +157,10 @@ public class CEGameState extends GameState implements Serializable {
         return false;
     }
 
+    /**
+     * Gets and returns a random CECard
+     * @return: a random CECard
+     */
     public CECard getRandomCard() {
         return drawPile.get(new Random().nextInt(drawPile.size()));
     }

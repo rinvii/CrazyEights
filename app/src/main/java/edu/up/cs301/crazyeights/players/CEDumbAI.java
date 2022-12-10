@@ -45,7 +45,6 @@ public class CEDumbAI extends GameComputerPlayer {
 
     /**
      * Getter for instance variable score.
-     *
      * @return the score of this player
      */
     public int getScore() {
@@ -80,7 +79,7 @@ public class CEDumbAI extends GameComputerPlayer {
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
-//            e.printStackTrace();
+                   e.printStackTrace();
                 }
                 game.sendAction(new CEDrawAction(this));
             } else {
@@ -96,7 +95,7 @@ public class CEDumbAI extends GameComputerPlayer {
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
-//            e.printStackTrace();
+                   e.printStackTrace();
                 }
                 game.sendAction(new CEDrawAction(this));
             }
@@ -130,6 +129,10 @@ public class CEDumbAI extends GameComputerPlayer {
         this.cardsInHand.clear();
     }
 
+    /**
+     * Gets the player's name
+     * @return: player name
+     */
     @Override
     public String getName() {
         return this.name;

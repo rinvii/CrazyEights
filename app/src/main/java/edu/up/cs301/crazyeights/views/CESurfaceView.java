@@ -44,16 +44,10 @@ public class CESurfaceView extends SurfaceView {
     private final int cardLengthRatio = 10; // cards it will take to fill up the the screen width-wise
     private final int CARD_WIDTH = 500;
     private final int CARD_HEIGHT = 726;
-//    private final int ADJUSTED_CARD_WIDTH = CARD_WIDTH / 3;
-//    private final int ADJUSTED_CARD_HEIGHT = CARD_HEIGHT / 3;
-//    private final int ADJUSTED_CARD_HALF_WIDTH = ADJUSTED_CARD_WIDTH / 2;
-//    private final int ADJUSTED_CARD_HALF_HEIGHT = ADJUSTED_CARD_HEIGHT / 2;
 
     boolean rightFilled;
     boolean topFilled;
     boolean leftFilled;
-
-
 
     // the current GUI holder's index of their player object in the player list
     private int ourIndex;
@@ -328,6 +322,7 @@ public class CESurfaceView extends SurfaceView {
         rightFilled = false;
         leftFilled = false;
 
+        //Necessary for debugging.
 //        canvas.drawRect(canvasWidth/2, 0, canvasWidth/2, canvasHeight, strokePaint);
 //        canvas.drawRect(0, canvasHeight / 2, canvasWidth, canvasHeight / 2
 //                , strokePaint);
@@ -340,6 +335,10 @@ public class CESurfaceView extends SurfaceView {
         return this.drawPileBoundaries;
     }
 
+    /**
+     * Draws arrows to indicate the player's turn
+     * @param canvas what the arrows are drawn on
+     */
     public void drawArrows(Canvas canvas) {
         Bitmap player0Arrow = BitmapFactory.decodeResource(getResources(), R.drawable.p0_turnarrow);
         Bitmap player1Arrow = BitmapFactory.decodeResource(getResources(), R.drawable.p1_turnarrow);
@@ -363,6 +362,10 @@ public class CESurfaceView extends SurfaceView {
         }
     }
 
+    /**
+     * Gets the current state of the game
+     * @return the state of the game
+     */
     public CEGameState getState() {
         return this.state;
     }

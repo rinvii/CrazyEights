@@ -24,6 +24,17 @@ import edu.up.cs301.game.GameFramework.infoMessage.NotYourTurnInfo;
 import edu.up.cs301.game.GameFramework.players.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.utilities.Logger;
 
+
+/***
+ *
+ This class is the Human Player which contains the GUI that is drawing the cards.
+ *
+ * @author Ronnie Delos Santos
+ * @author Emily Do
+ * @author Noelle Lei Sam
+ * @author Alex Melamai
+ * @version December 2022
+ */
 public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListener {
     // tag for logging
     private static final String TAG = "CEHumanPlayer";
@@ -51,41 +62,54 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
 
     }
 
+    /**
+     * Clears the player's hand
+     */
     public void setCardsInHand(){
         ArrayList<CECard> newCardsInHand=new ArrayList<CECard>();
-        this.cardsInHand=newCardsInHand;
+        this.cardsInHand = newCardsInHand;
     }
 
+    /**
+     * Gets and returns the player's name
+     * @return the player's name
+     */
     @Override
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Gets the player's score.
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Sets the player's score
+     * @param newScore the player's updated score
+     */
     @Override
-    public void setScore(int NewScore) {
-        this.score = score+NewScore;
+    public void setScore(int newScore) {
+        this.score = score + newScore;
     }
 
-
+    /**
+     * Necessary for game framework
+     */
     @Override
     public void setScore() {
         return;
     }
 
     /**
-     * returns the GUI's top view
-     *
-     * @return
-     * 		the GUI's top view
+     * Returns the GUI's top view
+     * @return the GUI's top view
      */
     public View getTopView() {
-//      return myActivity.findViewById(R.id.top_gui_layout);
         return null;
-    };
+    }
 
     /**
      * Callback method, called when player gets a message
@@ -99,7 +123,7 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
 
         if (info instanceof IllegalMoveInfo || info instanceof NotYourTurnInfo) {
             // if the move was out of turn or otherwise illegal, flash the screen
-//            surfaceView.flash(Color.RED, 50);
+            // surfaceView.flash(Color.RED, 50);
         }
         else if (!(info instanceof CEGameState))
             // if we do not have a TTTState, ignore
@@ -121,7 +145,6 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         surfaceView = (CESurfaceView) myActivity.findViewById(R.id.ourView);
         Logger.log("set listener","OnTouch");
         surfaceView.setOnTouchListener(this);
-
     }
 
     /**
@@ -159,12 +182,6 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         surfaceView.invalidate();
         return true;
     }
-
-    /*
-     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-     * CEGamePlayer method implementations * * * * * * * * * * * * * *
-     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-     */
 
     /**
      * Get a list of the player's hand.
@@ -214,18 +231,22 @@ public class CEHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         });
     }
 
-    public void displayPlayerNames(HashMap<Integer, String> hm) {
+    /**
+     * Displays player names and scores.
+     * @param hashMap
+     */
+    public void displayPlayerNames(HashMap<Integer, String> hashMap) {
         myActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 TextView player0Name = myActivity.findViewById(R.id.Player0Name);
-                player0Name.setText(hm.get(0) + "");
+                player0Name.setText(hashMap.get(0) + "");
                 TextView player1Name = myActivity.findViewById(R.id.Player1Name);
-                player1Name.setText(hm.get(1) + "");
+                player1Name.setText(hashMap.get(1) + "");
                 TextView player2Name = myActivity.findViewById(R.id.Player2Name);
-                player2Name.setText(hm.get(2) + "");
+                player2Name.setText(hashMap.get(2) + "");
                 TextView player3Name = myActivity.findViewById(R.id.Player3Name);
-                player3Name.setText(hm.get(3) + "");
+                player3Name.setText(hashMap.get(3) + "");
             }
         });
     }

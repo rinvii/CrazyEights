@@ -6,7 +6,15 @@ import android.graphics.Rect;
 import edu.up.cs301.R;
 
 /**
+ *  This class represents each carc to displayed on the user interface.
+ *  It contains an extensive amount of switch statements which are used
+ *  to correspond to their images.
  *
+ * @author Ronnie Delos Santos
+ * @author Emily Do
+ * @author Noelle Lei Sam
+ * @author Alex Melamai
+ * @version December 2022
  */
 public class CECard {
     public FACE face;
@@ -15,12 +23,20 @@ public class CECard {
     Point offsetPos;
     public Integer rotation;
 
-
-    public CECard(FACE f, SUIT s) {
-        this.face = f;
-        this.suit = s;
+    /**
+     * Sets the card to the appropriate face and suit values
+     * @param face
+     * @param suit
+     */
+    public CECard(FACE face, SUIT suit) {
+        this.face = face;
+        this.suit = suit;
     }
 
+    /**
+     * Copy Constructor
+     * @param original
+     */
     public CECard(CECard original) {
         this.face = original.face;
         this.suit = original.suit;
@@ -29,14 +45,23 @@ public class CECard {
         this.rotation = original.rotation;
     }
 
+    /**
+     * Enumerates FACE names
+     */
     public enum FACE {
         ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, KING, QUEEN, JACK;
     }
 
+    /**
+     * Enumerates SUIT names
+     */
     public enum SUIT {
         HEART, SPADE, DIAMOND, CLUB;
     }
 
+    /**
+     * @return the image of the card which corresponds with SUIT and FACE
+     */
     public int getId() {
         switch (suit) {
             case HEART:
@@ -163,6 +188,10 @@ public class CECard {
         return 0;
     }
 
+    /**
+     * Sets face card values
+     * @return the score value of the appropriate face cord
+     */
     public int getScore() {
                 switch (face) {
                     case ACE:
@@ -195,25 +224,48 @@ public class CECard {
         return 0;
     }
 
-    public Rect setBounds(Rect b) {
-        this.bounds = b;
-        return b;
+    /**
+     * Sets the x,y boundaries for this card
+     * @param bounds
+     * @return
+     */
+    public Rect setBounds(Rect bounds) {
+        this.bounds = bounds;
+        return bounds;
     }
 
+    /**
+     * Sets the offset of this card
+     * @param offset
+     * @return
+     */
     public Point setDiscardCardOffset(Point offset) {
         this.offsetPos = offset;
         return offset;
     }
 
+    /**
+     * Sets the discard card rotation
+     * @param rotation
+     * @return degrees to rotate
+     */
     public int setDiscardCardRotation(int rotation) {
         this.rotation = rotation;
         return rotation;
     }
 
+    /**
+     * Gets the offset position of this card
+     * @return the offset position of this card
+     */
     public Point getOffsetPos() {
         return this.offsetPos;
     }
 
+    /**
+     * Gets the degree of the card's position.
+     * @return the degree of this card's position
+     */
     public Integer getRotation() {
         return this.rotation;
     }
