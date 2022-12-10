@@ -14,7 +14,6 @@
         tools:layout_editor_absoluteX="-191dp"
         tools:layout_editor_absoluteY="26dp" />
 
-
     <LinearLayout
         android:id="@+id/PlayerIcons"
         android:layout_width="match_parent"

@@ -1,5 +1,7 @@
 package edu.up.cs301.crazyeights;
 
+import android.media.MediaPlayer;
+
 import java.util.ArrayList;
 
 import edu.up.cs301.R;
@@ -36,6 +38,7 @@ public class CEMainActivity extends GameMainActivity {
     private static final String TAG = "CEMainActivity";
     public static final int PORT_NUMBER = 8000;
 
+
     /**
      * Creates the default configuration for what the player
      * types will be. Adds four default players to the lobby.
@@ -44,6 +47,7 @@ public class CEMainActivity extends GameMainActivity {
      */
     @Override
     public GameConfig createDefaultConfig() {
+
 
         // Define the allowed player types
         ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
