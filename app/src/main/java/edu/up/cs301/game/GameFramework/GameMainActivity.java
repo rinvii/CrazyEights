@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -160,11 +161,19 @@ public abstract class GameMainActivity extends Activity implements
     @Override
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Activity ourActivity = this;
         //BackgroundMusic
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.music);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.start();
+        Thread musicThread = new Thread() {
+            MediaPlayer mediaPlayer = MediaPlayer.create(ourActivity, R.raw.music);
+
+            public void run() {
+                Looper.prepare();
+                mediaPlayer.start();
+                mediaPlayer.setLooping(true);
+                Looper.loop();
+            }
+        };
+        musicThread.start();
 
         //Set Context for Toast Logging
         Logger.setContext(getApplicationContext());
