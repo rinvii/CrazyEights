@@ -20,6 +20,7 @@ import java.util.Random;
 
 import edu.up.cs301.R;
 import edu.up.cs301.crazyeights.CECard;
+import edu.up.cs301.crazyeights.CELocalGame;
 import edu.up.cs301.crazyeights.infoMessage.CEGameState;
 import edu.up.cs301.crazyeights.players.CEDumbAI;
 import edu.up.cs301.crazyeights.players.CEHumanPlayer;
@@ -50,6 +51,8 @@ public class CESurfaceView extends SurfaceView {
     boolean rightFilled;
     boolean topFilled;
     boolean leftFilled;
+
+
 
     // the current GUI holder's index of their player object in the player list
     private int ourIndex;
@@ -114,6 +117,7 @@ public class CESurfaceView extends SurfaceView {
 
         // invoke helper draw method
         drawCards(canvas);
+        drawArrows(canvas);
     }
 
     /**
@@ -135,7 +139,6 @@ public class CESurfaceView extends SurfaceView {
         strokePaint.setStyle(Paint.Style.STROKE);
         strokePaint.setColor(Color.GREEN);
         strokePaint.setStrokeWidth(1);
-
 
 
         Bitmap bmpBackOfCard = BitmapFactory.decodeResource(getResources(), R.drawable.back_card);
@@ -334,6 +337,30 @@ public class CESurfaceView extends SurfaceView {
 
     public Rect getDrawPileBoundaries() {
         return this.drawPileBoundaries;
+    }
+
+    public void drawArrows(Canvas canvas) {
+        Bitmap player0Arrow = BitmapFactory.decodeResource(getResources(), R.drawable.p0_turnarrow);
+        Bitmap player1Arrow = BitmapFactory.decodeResource(getResources(), R.drawable.p1_turnarrow);
+        Bitmap player2Arrow = BitmapFactory.decodeResource(getResources(), R.drawable.p2_turnarrow);
+        Bitmap player3Arrow = BitmapFactory.decodeResource(getResources(), R.drawable.p3_turnarrow);
+
+
+        int arrowHeight = 100;
+        int arrowWidth = 100;
+        int top = canvas.getHeight() / 2;
+
+
+        //draw arrows to indicate player turn
+        if(state.getPlayerToMove() == 0){
+            canvas.drawBitmap(player0Arrow, null, new Rect(canvas.getWidth() / 2 + 200, top, canvas.getWidth() / 2 + 200 + arrowWidth, canvas.getHeight() / 2 + arrowHeight), new Paint());
+        } else if(state.getPlayerToMove() == 1) {
+            canvas.drawBitmap(player1Arrow, null, new Rect(canvas.getWidth() / 3 - 90, top, canvas.getWidth() / 3 - 90 + arrowWidth + 20, canvas.getHeight() / 2 + arrowHeight + 20), new Paint());
+        } else if(state.getPlayerToMove() == 2){
+            canvas.drawBitmap(player2Arrow, null, new Rect(canvas.getWidth() / 3 - 90, top, canvas.getWidth() / 3 - 90 + arrowWidth + 20, canvas.getHeight() / 2 + arrowHeight + 20), new Paint());
+        } else {
+            canvas.drawBitmap(player3Arrow, null, new Rect(canvas.getWidth() / 2 + 200, top, canvas.getWidth() / 2 + 200 + arrowWidth, canvas.getHeight() / 2 + arrowHeight), new Paint());
+        }
     }
 
     public CEGameState getState() {
